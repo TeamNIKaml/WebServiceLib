@@ -5,12 +5,21 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.teamNikaml.webservicelib.model.Login;
+import com.teamNikaml.webservicelib.model.Mapper;
+
 public class MainActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		Login login = new Login();
+		Mapper mapper = new Mapper();
+		
+		mapper.setClassName(login);
+		mapper.getFieldName();
+		
 	}
 
 	@Override
