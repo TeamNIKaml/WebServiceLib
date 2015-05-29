@@ -28,9 +28,9 @@ public class CallWebservice {
 
 	private static InputStream is = null;
 	private Context context;
-	//private static User user;
-    private  String URL;
-    private Map<String, String> parametersMap;
+	// private static User user;
+	private String URL;
+	private Map<String, String> parametersMap;
 
 	public String getURL() {
 		return URL;
@@ -60,77 +60,62 @@ public class CallWebservice {
 		this.context = context;
 	}
 
-	public void doLogin() {
-		
-		
+	public void getService() {
 
-		new LoginTask().execute("login");
+		new WebserviceAsyncTask().execute("login");
 
 	}
 
-	
-
-	
-
-	private class LoginTask extends AsyncTask<String, Integer, String> {
+	private class WebserviceAsyncTask extends
+			AsyncTask<String, Integer, String> {
 
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			int loginStatus = 0;
+			int status = 0;
 			JSONObject json_data;
 			try {
 				json_data = new JSONObject(result);
 				for (int i = 0; i < json_data.length(); i++) {
 
 					if (Integer.parseInt(json_data.getString("status")) == 200) {
-						loginStatus = 200;
-					//	user.setUserKey(json_data.getString("userKey"));
-					//	user.setDesignation(json_data.getString("designation"));
+						status = 200;
+						
 
 					} else
-						loginStatus = Integer.parseInt(json_data
+						status = Integer.parseInt(json_data
 								.getString("status"));
 				}
-			
 
 			} catch (final JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+					e.printStackTrace();
 			}
-			if (loginStatus == 200) {
+			if (status == 200) {
 				System.out.println("Login Sucessful");
-			
+
 			} else {
 				System.out.println("Login error");
 			}
 		}
 
-		@Override
+		@Override @SuppressWarnings("rawtypes")
 		protected String doInBackground(String... params) {
 
 			String json = "";
 			final List<BasicNameValuePair> params1 = new ArrayList<BasicNameValuePair>();
-		//	params1.add(new BasicNameValuePair("emailId", "abc@hm.cc"));
-		//	params1.add(new BasicNameValuePair("password","password123"));
-		//	params1.add(new BasicNameValuePair("requestKeyword", "Login"));
-			
-			
+		
 			Iterator entries = parametersMap.entrySet().iterator();
 			while (entries.hasNext()) {
-			    Map.Entry entry = (Map.Entry) entries.next();
-			    String key = (String)entry.getKey();
-			    String value = (String)entry.getValue();
-			    System.out.println("Key = " + key + ", Value = " + value);
-			    
-			    params1.add(new BasicNameValuePair(key, value));
-			    
-			    
+				
+				Map.Entry entry = (Map.Entry) entries.next();
+				String key = (String) entry.getKey();
+				String value = (String) entry.getValue();
+				System.out.println("Key = " + key + ", Value = " + value);
+
+				params1.add(new BasicNameValuePair(key, value));
+
 			}
-			
-			
-			
 
 			try {
 
