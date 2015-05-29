@@ -2,6 +2,11 @@ package com.teamNikaml.webservicelib.model;
 
 public class Login {
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "status:"+status+" statusMessage:"+statusMessage+" userKey:"+userKey+" designation:"+designation+" pgmId:"+pgmId;
+	}
 	private String status,statusMessage;
 	private String userKey,designation,pgmId;
 	public String getStatus() {

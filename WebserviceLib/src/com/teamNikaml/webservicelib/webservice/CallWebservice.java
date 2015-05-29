@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +22,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.ls.LSInput;
+
+import com.teamNikaml.webservicelib.model.ReflectionModel;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -31,38 +37,20 @@ public class CallWebservice {
 	// private static User user;
 	private String URL;
 	private Map<String, String> parametersMap;
+	private Object classObject;
 
-	public String getURL() {
-		return URL;
-	}
-
-	public void setURL(String uRL) {
+	public CallWebservice(Context context, String uRL,
+			Map<String, String> parametersMap, Object classObject) {
+		super();
+		this.context = context;
 		URL = uRL;
-	}
-
-	public Map<String, String> getParametersMap() {
-		return parametersMap;
-	}
-
-	public void setParametersMap(Map<String, String> parametersMap) {
 		this.parametersMap = parametersMap;
-	}
-
-	public CallWebservice(Context context) {
-		this.context = context;
-	}
-
-	public Context getContext() {
-		return context;
-	}
-
-	public void setContext(Context context) {
-		this.context = context;
+		this.classObject = classObject;
 	}
 
 	public void getService() {
 
-		new WebserviceAsyncTask().execute("login");
+		new WebserviceAsyncTask().execute("webservice");
 
 	}
 
@@ -75,21 +63,57 @@ public class CallWebservice {
 			super.onPostExecute(result);
 			int status = 0;
 			JSONObject json_data;
+			ReflectionModel model = new ReflectionModel();
+			List<String> fieldList = model.getFieldName(classObject);
+
 			try {
 				json_data = new JSONObject(result);
 				for (int i = 0; i < json_data.length(); i++) {
 
 					if (Integer.parseInt(json_data.getString("status")) == 200) {
 						status = 200;
-						
 
-					} else
-						status = Integer.parseInt(json_data
-								.getString("status"));
+					}/*
+					 * else status = Integer.parseInt(json_data
+					 * .getString("status"));
+					 */
+
+					// String setter = String.format("set%C%s",
+					// property.charAt(0), property.substring(1));
+
+					Field[] fields = classObject.getClass().getDeclaredFields();
+
+					String setterName = null;
+
+					for (int j = 0; j < fieldList.size(); j++) {
+						setterName = "set"
+								+ fieldList.get(j).substring(0, 1)
+										.toUpperCase()
+								+ fieldList.get(j).substring(1);
+						// fields[j].set
+						Method set = classObject.getClass().getMethod(
+								setterName, setterName.getClass());
+
+						set.invoke(classObject,
+								json_data.getString(fieldList.get(j)));
+					}
+
 				}
 
 			} catch (final JSONException e) {
-					e.printStackTrace();
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			if (status == 200) {
 				System.out.println("Login Sucessful");
@@ -99,15 +123,16 @@ public class CallWebservice {
 			}
 		}
 
-		@Override @SuppressWarnings("rawtypes")
+		@Override
+		@SuppressWarnings("rawtypes")
 		protected String doInBackground(String... params) {
 
 			String json = "";
 			final List<BasicNameValuePair> params1 = new ArrayList<BasicNameValuePair>();
-		
+
 			Iterator entries = parametersMap.entrySet().iterator();
 			while (entries.hasNext()) {
-				
+
 				Map.Entry entry = (Map.Entry) entries.next();
 				String key = (String) entry.getKey();
 				String value = (String) entry.getValue();

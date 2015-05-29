@@ -1,24 +1,38 @@
 package com.teamNikaml.webservicelib.activity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.teamNikaml.webservicelib.model.Constant;
 import com.teamNikaml.webservicelib.model.Login;
-import com.teamNikaml.webservicelib.model.Mapper;
+import com.teamNikaml.webservicelib.webservice.CallWebservice;
 
 public class MainActivity extends Activity {
+	
+	
+	//params1.add(new BasicNameValuePair("emailId", user.getEmailId()));
+	//params1.add(new BasicNameValuePair("password", user.getPassword()));
+	//params1.add(new BasicNameValuePair("userType", user.getDesignation()));
+	//params1.add(new BasicNameValuePair("requestKeyword", "Login"));
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		Login login = new Login();
-		Mapper mapper = new Mapper();
 		
-		mapper.setClassName(login);
-		mapper.getFieldName();
+		Map<String, String> parametersMap = new HashMap<String, String>();
+		parametersMap.put("emailId", "abc@hm.cc");
+		parametersMap.put("password", "loginpassword");
+		parametersMap.put("requestKeyword", "Login");
+		
+		CallWebservice callWebservice = new CallWebservice(getApplicationContext(), Constant.LOGIN_URL, parametersMap, login);
+		callWebservice.getService();
 		
 	}
 
