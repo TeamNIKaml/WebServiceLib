@@ -8,7 +8,6 @@ public class ReflectionModel {
 
 	public List<String> getFieldName(Object className) {
 		Class<?> c = className.getClass();
-		System.out.println("classname: " + c.getName());
 		List<String> fieldNameList = new ArrayList<String>();
 		Field[] fields = c.getDeclaredFields();
 

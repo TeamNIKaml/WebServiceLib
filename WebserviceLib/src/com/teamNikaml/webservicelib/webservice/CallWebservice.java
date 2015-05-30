@@ -70,10 +70,10 @@ public class CallWebservice {
 				json_data = new JSONObject(result);
 				for (int i = 0; i < json_data.length(); i++) {
 
-					if (Integer.parseInt(json_data.getString("status")) == 200) {
+				/*	if (Integer.parseInt(json_data.getString("status")) == 200) {
 						status = 200;
 
-					}/*
+					}
 					 * else status = Integer.parseInt(json_data
 					 * .getString("status"));
 					 */
@@ -115,12 +115,7 @@ public class CallWebservice {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if (status == 200) {
-				System.out.println("Login Sucessful");
-
-			} else {
-				System.out.println("Login error");
-			}
+			System.out.println(classObject.getClass().getName()+" : "+classObject);
 		}
 
 		@Override

@@ -5,9 +5,15 @@ public class Login {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "status:"+status+" statusMessage:"+statusMessage+" userKey:"+userKey+" designation:"+designation+" pgmId:"+pgmId;
+		return "status:"+status+" statusMessage:"+status_message+" userKey:"+userKey+" designation:"+designation+" pgmId:"+pgmId;
 	}
-	private String status,statusMessage;
+	public String getStatus_message() {
+		return status_message;
+	}
+	public void setStatus_message(String status_message) {
+		this.status_message = status_message;
+	}
+	private String status,status_message;
 	private String userKey,designation,pgmId;
 	public String getStatus() {
 		return status;
@@ -15,12 +21,7 @@ public class Login {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getStatusMessage() {
-		return statusMessage;
-	}
-	public void setStatusMessage(String statusMessage) {
-		this.statusMessage = statusMessage;
-	}
+	
 	public String getUserKey() {
 		return userKey;
 	}
