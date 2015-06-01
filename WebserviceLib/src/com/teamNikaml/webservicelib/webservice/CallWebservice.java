@@ -63,7 +63,7 @@ public class CallWebservice {
 			String setterName = null;
 			
 			
-			System.out.println(classData);
+	
 			
 			
 			setterName = "set"
@@ -136,7 +136,7 @@ public class CallWebservice {
 						
 						Field field = classObject.getClass().getDeclaredField(listObjectArrayList.get(k));
 						
-					//	System.out.println("Field name: "+field.getName()+" "+String.valueOf(i));
+				
 						
 						 Class<?>  listGenericClass = model.getClassName(field);
 						 
@@ -144,12 +144,7 @@ public class CallWebservice {
 						 
 						 Object myjsonObject = listGenericClass.newInstance();
 						 
-						// System.out.println(listGenericClass);
-						 
-						
-						 
-						 
-				
+					
 						 ReflectionModel model2 = new ReflectionModel();
 						 
 						 model2.setClassName(listGenericClass);
@@ -158,16 +153,10 @@ public class CallWebservice {
 						 
 						 
 						 List<String> fieldList1 = model2.getFieldNameList();
-						 
-						// System.out.println(fieldList1);
-						 
-						
-						 
-						//	List<String> listObjectArrayList1 = model.getListObjectArrayList();
+				
 							for (int j = 0; j < fieldList1.size(); j++) {
 								
-								//System.out.println(fieldList1.get(j));
-								
+														
 								setData(jsonObject,fieldList1.get(j),myjsonObject);
 						 
 						
@@ -178,13 +167,13 @@ public class CallWebservice {
 						}
 						 
 						
-						
+					
 						
 						String setterName = "set"
 								+ listObjectArrayList.get(k).substring(0, 1)
 										.toUpperCase()
 								+ listObjectArrayList.get(k).substring(1);
-						// fields[j].set
+						
 						Method set = classObject.getClass().getMethod(
 								setterName, setterName.getClass());
 						set.invoke(classObject,objectList);
