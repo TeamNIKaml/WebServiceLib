@@ -1,5 +1,8 @@
 package com.teamNikaml.webservicelib.activity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,36 +10,43 @@ import android.view.MenuItem;
 
 import com.teamNikaml.webservicelib.model.Constant;
 import com.teamNikaml.webservicelib.model.ParameterMapModel;
+import com.teamNikaml.webservicelib.responseModel.LoginResponseModel;
 import com.teamNikaml.webservicelib.responseModel.TaskResponseModel;
 import com.teamNikaml.webservicelib.webservice.CallWebservice;
 
 public class MainActivity extends Activity {
 	
+	private Map<String, String> loginMap = new HashMap<String, String>();
 	
-	//params1.add(new BasicNameValuePair("emailId", user.getEmailId()));
-	//params1.add(new BasicNameValuePair("password", user.getPassword()));
-	//params1.add(new BasicNameValuePair("userType", user.getDesignation()));
-	//params1.add(new BasicNameValuePair("requestKeyword", "Login"));
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		
+//		params1.add(new BasicNameValuePair("emailId", user.getEmailId()));
+//		params1.add(new BasicNameValuePair("password", user.getPassword()));
+//		params1.add(new BasicNameValuePair("userType", user.getDesignation()));
+///.add(new BasicNameValuePair("requestKeyword", "Login"));
 		
 		ParameterMapModel mapModel = new ParameterMapModel();
 		
+		mapModel.setLoginMap();
 		
-		TaskResponseModel taskResponseModel = new TaskResponseModel();
+		LoginResponseModel login = new LoginResponseModel();
+		
+		
+	//	TaskResponseModel taskResponseModel = new TaskResponseModel();
 		
 		/*login*/
-	//	CallWebservice callWebservice = new CallWebservice(getApplicationContext(), Constant.LOGIN_URL, mapModel.getLoginMap(), login);
-	//	callWebservice.getService();
+		CallWebservice callWebservice = new CallWebservice(getApplicationContext(), Constant.LOGIN_URL, mapModel.getLoginMap(), login);
+		callWebservice.getService();
+		
+		
 		
 		/*task*/
-		CallWebservice callWebservice = new CallWebservice(getApplicationContext(), Constant.TASK_URL, mapModel.getLoginMap(), taskResponseModel);
-		callWebservice.getService();
+	//	CallWebservice callWebservice = new CallWebservice(getApplicationContext(), Constant.TASK_URL, mapModel.getLoginMap(), taskResponseModel);
+	//	callWebservice.getService();
 		
 		
 		

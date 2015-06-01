@@ -8,7 +8,7 @@ import com.teamNikaml.webservicelib.model.TaskList;
 public class TaskResponseModel {
 	
 	private String status,status_message;
-	private List<TaskList> taskResponse  = new ArrayList<TaskList>() ;
+	private List<TaskList> taskList  = new ArrayList<TaskList>() ;
 	
 	public String getStatus() {
 		return status;
@@ -28,19 +28,19 @@ public class TaskResponseModel {
 
 	
 
-	public List<TaskList> getTaskResponse() {
-		return taskResponse;
+	public List<TaskList> getTaskList() {
+		return taskList;
 	}
 
-	public void setTaskResponse(List<TaskList> taskResponse) {
-		this.taskResponse = taskResponse;
+	public void setTaskListList(List<TaskList> taskList) {
+		this.taskList = taskList;
 	}
 	
 	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "status:"+status+" status_message:"+status_message+" taskResponseList:"+taskResponse;
+		return "status:"+status+" status_message:"+status_message+" taskResponseList:"+taskList;
 	}
 
 	
