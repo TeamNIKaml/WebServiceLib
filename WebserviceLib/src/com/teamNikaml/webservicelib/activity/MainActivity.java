@@ -1,10 +1,9 @@
 package com.teamNikaml.webservicelib.activity;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -15,8 +14,20 @@ import com.teamNikaml.webservicelib.responseModel.TaskResponseModel;
 import com.teamNikaml.webservicelib.webservice.CallWebservice;
 
 public class MainActivity extends Activity {
+	
+	 TaskResponseModel taskResponseModel = new TaskResponseModel();
+	 
+	 LoginResponseModel login = new LoginResponseModel();
+	
+	private final Handler myHandler = new Handler() {
+		public void handleMessage(Message msg) {
+			// ((MainActivity) getActivity()).updateDrawer();
+			System.out.println("Myhandler#:"+taskResponseModel);
+		}
+	};
+	
 
-	private Map<String, String> loginMap = new HashMap<String, String>();
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +39,17 @@ public class MainActivity extends Activity {
 		// params1.add(new BasicNameValuePair("userType",
 		// user.getDesignation()));
 		// /.add(new BasicNameValuePair("requestKeyword", "Login"));
+		
+		
+		
+		
 
 		ParameterMapModel mapModel = new ParameterMapModel();
 
 	
 
 		/* login */
-		// LoginResponseModel login = new LoginResponseModel();
+		// 
 		// mapModel.setLoginMap();
 		// CallWebservice callWebservice = new
 		// CallWebservice(getApplicationContext(), Constant.LOGIN_URL,
@@ -42,9 +57,10 @@ public class MainActivity extends Activity {
 		// callWebservice.getService();
 
 		/* task */
-		 TaskResponseModel taskResponseModel = new TaskResponseModel();
+		
 		 CallWebservice callWebservice = new CallWebservice(getApplicationContext(), Constant.TASK_URL,
 				 mapModel.getTaskMap(), taskResponseModel);
+		 CallWebservice.setHandler(myHandler);
 		 callWebservice.getService();
 
 	}

@@ -27,9 +27,11 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
 
 import com.teamNikaml.webservicelib.model.ReflectionModel;
+import com.teamNikaml.webservicelib.model.TaskList;
 
 public class CallWebservice {
 
@@ -38,6 +40,24 @@ public class CallWebservice {
 	private String URL;
 	private Map<String, String> parametersMap;
 	private Object classObject;
+	
+	private static Handler myHandler;
+	
+	
+	public static void setHandler(Handler h) {
+		myHandler = h;
+	}
+
+	private void callHandler() {
+		
+	
+		
+		if (myHandler != null) {
+			myHandler.sendEmptyMessage(1);
+		}
+	}
+	
+	
 
 	public CallWebservice(Context context, String uRL,
 			Map<String, String> parametersMap, Object classObject) {
@@ -61,11 +81,6 @@ public class CallWebservice {
 		private void setData(JSONObject json_data,String fieldName,  Object classData) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, JSONException, NoSuchMethodException
 		{
 			String setterName = null;
-			
-			
-	
-			
-			
 			setterName = "set"
 					+ fieldName.substring(0, 1)
 							.toUpperCase()
@@ -104,7 +119,8 @@ public class CallWebservice {
 			List<Object> objectList = new ArrayList<Object>();
 			
 			JSONArray jsonArray;
-			
+			Class<?>  listGenericClass = null;
+		
 
 			try {
 				json_data = new JSONObject(result);
@@ -136,9 +152,9 @@ public class CallWebservice {
 						
 						Field field = classObject.getClass().getDeclaredField(listObjectArrayList.get(k));
 						
-				
+					
 						
-						 Class<?>  listGenericClass = model.getClassName(field);
+						listGenericClass  = model.getClassName(field);
 						 
 						
 						 
@@ -164,19 +180,54 @@ public class CallWebservice {
 						 
 						 
 							 objectList.add(myjsonObject);
+						}	
+						
+						List<TaskList> taskLists = new ArrayList<TaskList>();
+						for(int i=0;i<objectList.size();i++)
+						{
+						TaskList task =(TaskList)objectList.get(i);
+						taskLists.add(task);
 						}
-						 
-						
-					
-						
+					//	System.out.println(taskLists);
+						//taskLists = objectList;
+					//	taskLists.getClass().g
 						String setterName = "set"
 								+ listObjectArrayList.get(k).substring(0, 1)
 										.toUpperCase()
 								+ listObjectArrayList.get(k).substring(1);
 						
-						Method set = classObject.getClass().getMethod(
-								setterName, setterName.getClass());
-						set.invoke(classObject,objectList);
+					//	System.out.println(setterName);
+						
+						Method[] method = classObject.getClass().getMethods();
+								
+							
+						for(int i=0;i<method.length;i++)
+						{
+							
+							String methodName = method[i].getName();
+							if(methodName.equals(setterName))
+							{
+								System.out.println("indide : "+method[i].getName()+" Settername: "+setterName);
+								method[i].invoke(classObject,taskLists);
+								
+								break;
+							}
+						}
+						
+						
+					//	TaskResponseModel task =(TaskResponseModel)classObject;
+				
+						
+					
+								
+								
+								
+								
+								
+								
+								
+								
+						
 					}
 					
 					
@@ -204,9 +255,9 @@ public class CallWebservice {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println(classObject);
-		//	System.out.println(objectList);
-
+		//	System.out.println(classObject);
+		//	System.out.println(objectList.size());
+			callHandler();
 		}
 
 		@Override
