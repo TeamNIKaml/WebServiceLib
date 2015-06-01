@@ -15,6 +15,8 @@ public class ParameterMapModel {
 
 	public void setTaskMap() {
 		//this.taskMap = taskMap;
+		taskMap.put("userKey", "6bc459e0cf4082e7f49a56ebea0ae2d7d");
+		loginMap.put("requestKeyword", "myTasks");
 	}
 
 	public void setLoginMap() {

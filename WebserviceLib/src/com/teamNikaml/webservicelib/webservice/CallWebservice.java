@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,9 +29,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.teamNikaml.webservicelib.model.ReflectionModel;
-import com.teamNikaml.webservicelib.responseModel.TaskResponseModel;
 
 public class CallWebservice {
 
@@ -57,6 +57,58 @@ public class CallWebservice {
 
 	private class WebserviceAsyncTask extends
 			AsyncTask<String, Integer, String> {
+		
+		private void setData(JSONObject json_data,String fieldName,  Object classData) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, JSONException, NoSuchMethodException
+		{
+			String setterName = null;
+			
+			
+			System.out.println(classData);
+			
+			
+			setterName = "set"
+					+ fieldName.substring(0, 1)
+							.toUpperCase()
+					+ fieldName.substring(1);
+			// fields[j].set
+			Method set = classData.getClass().getMethod(
+					setterName, setterName.getClass());
+			set.invoke(classData,
+					json_data.getString(fieldName));
+			
+			
+			
+		}
+		
+		
+		private void setObjectData(JSONObject json_data,String fieldName,  Class<?>  classData) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, JSONException, NoSuchMethodException
+		{
+			String setterName = null;
+			
+			
+			System.out.println(classData);
+			
+			//Type t = classData.getTypeParameters();
+			
+			//Object object = (classData.getSimpleName()) classData;
+			
+			
+			setterName = "set"
+					+ fieldName.substring(0, 1)
+							.toUpperCase()
+					+ fieldName.substring(1);
+			// fields[j].set
+			Method set = classData.getMethod(
+					setterName, setterName.getClass());
+			set.invoke(classData,
+					json_data.getString(fieldName));
+			
+			
+			
+		}
+		
+		
+		
 
 		@Override
 		protected void onPostExecute(String result) {
@@ -66,12 +118,16 @@ public class CallWebservice {
 			JSONObject json_data;
 			ReflectionModel model = new ReflectionModel();
 
-			model.setClassName(classObject);
+			model.setClassName(classObject.getClass());
 
 			model.getFieldName();
 
 			List<String> fieldList = model.getFieldNameList();
 			List<String> listObjectArrayList = model.getListObjectArrayList();
+			List<Object> objectList = new ArrayList<Object>();
+			
+			JSONArray jsonArray;
+			
 
 			try {
 				json_data = new JSONObject(result);
@@ -80,19 +136,73 @@ public class CallWebservice {
 
 					String setterName = null;
 					for (int j = 0; j < fieldList.size(); j++) {
-						setterName = "set"
-								+ fieldList.get(j).substring(0, 1)
-										.toUpperCase()
-								+ fieldList.get(j).substring(1);
-						// fields[j].set
-						Method set = classObject.getClass().getMethod(
-								setterName, setterName.getClass());
-						set.invoke(classObject,
-								json_data.getString(fieldList.get(j)));
+					
+						setData(json_data,fieldList.get(j),classObject);
+						
+						
 
 					}
-
+					
 				}
+					
+					System.out.println("!!@#@##@#@#@listObjectArrayList");
+					System.out.println(listObjectArrayList);
+					
+					for(int k=0;k<listObjectArrayList.size();k++)
+					{
+						jsonArray = json_data.getJSONArray(listObjectArrayList.get(k));
+						JSONObject jsonObject;
+						
+						for (int i = 0; i < jsonArray.length(); i++) {
+							
+							jsonObject = jsonArray.getJSONObject(i);
+						
+						
+						Field field = classObject.getClass().getDeclaredField(listObjectArrayList.get(k));
+						
+						System.out.println("Field name: "+field.getName()+" "+String.valueOf(i));
+						
+						 Class<?>  listGenericClass = model.getClassName(field);
+						 
+						 System.out.println(listGenericClass);
+						 
+						
+						 
+						 
+						 Field[] fields2 = listGenericClass.getDeclaredFields();
+						 ReflectionModel model2 = new ReflectionModel();
+						 
+						 model2.setClassName(listGenericClass);
+						 
+						 model2.getFieldName();
+						 
+						 
+						 List<String> fieldList1 = model2.getFieldNameList();
+						 
+						 System.out.println(fieldList1);
+						 
+						 System.out.println("!@@#@#$#@@#$@#$@#$@#$@#$!!!!!####");
+						 
+						//	List<String> listObjectArrayList1 = model.getListObjectArrayList();
+							for (int j = 0; j < fieldList1.size(); j++) {
+								
+								System.out.println(fieldList1.get(j));
+								
+								setObjectData(jsonObject,fieldList1.get(j),listGenericClass);
+						 
+						
+							}
+						 
+						 
+							 objectList.add(listGenericClass);
+						}
+						 
+						
+					}
+					
+					
+
+				
 
 			} catch (final JSONException e) {
 				e.printStackTrace();
@@ -108,8 +218,12 @@ public class CallWebservice {
 			} catch (InvocationTargetException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (NoSuchFieldException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			System.out.println(classObject);
+			System.out.println(objectList);
 
 		}
 

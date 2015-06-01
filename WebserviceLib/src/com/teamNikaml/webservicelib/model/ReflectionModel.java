@@ -8,13 +8,13 @@ import java.util.List;
 
 public class ReflectionModel {
 
-	private Object className;
+	private Class<?> className;
 	private List<String> fieldNameList = new ArrayList<String>();
 	private List<String> listObjectArrayList = new ArrayList<String>();
 
 	public void getFieldName() {
-		Class<?> c = className.getClass();
-		Field[] fields = c.getDeclaredFields();
+		
+		Field[] fields = className.getDeclaredFields();
 		Type type;
 
 
@@ -58,7 +58,7 @@ public class ReflectionModel {
 		return className;
 	}
 
-	public void setClassName(Object className) {
+	public void setClassName(Class<?> className) {
 		this.className = className;
 	}
 
