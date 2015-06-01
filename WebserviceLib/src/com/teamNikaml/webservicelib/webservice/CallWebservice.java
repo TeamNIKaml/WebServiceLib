@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,20 +17,19 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.ls.LSInput;
-
-import com.teamNikaml.webservicelib.model.ReflectionModel;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.teamNikaml.webservicelib.responseModel.TaskResponseModel;
+
 public class CallWebservice {
 
 	private static InputStream is = null;
-	private Context context;
+	//private Context context;
 	// private static User user;
 	private String URL;
 	private Map<String, String> parametersMap;
@@ -42,7 +38,7 @@ public class CallWebservice {
 	public CallWebservice(Context context, String uRL,
 			Map<String, String> parametersMap, Object classObject) {
 		super();
-		this.context = context;
+		//this.context = context;
 		URL = uRL;
 		this.parametersMap = parametersMap;
 		this.classObject = classObject;
@@ -63,20 +59,20 @@ public class CallWebservice {
 			super.onPostExecute(result);
 			int status = 0;
 			JSONObject json_data;
-			ReflectionModel model = new ReflectionModel();
-			List<String> fieldList = model.getFieldName(classObject);
+		/*	//ReflectionModel model = new ReflectionModel();
+		//	List<String> fieldList = model.getFieldName(classObject);
 
 			try {
 				json_data = new JSONObject(result);
 				for (int i = 0; i < json_data.length(); i++) {
 
-				/*	if (Integer.parseInt(json_data.getString("status")) == 200) {
+					if (Integer.parseInt(json_data.getString("status")) == 200) {
 						status = 200;
 
 					}
 					 * else status = Integer.parseInt(json_data
 					 * .getString("status"));
-					 */
+					 
 
 					// String setter = String.format("set%C%s",
 					// property.charAt(0), property.substring(1));
@@ -114,8 +110,14 @@ public class CallWebservice {
 			} catch (InvocationTargetException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			System.out.println(classObject.getClass().getName()+" : "+classObject);
+			}*/
+		//	System.out.println(classObject.getClass().getName()+" : "+classObject);
+			
+			Gson gson = new Gson();
+			TaskResponseModel responseModel = gson.fromJson(result,
+			                                            TaskResponseModel.class);
+			
+			System.out.println(responseModel);
 		}
 
 		@Override
