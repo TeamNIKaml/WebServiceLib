@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import com.teamNikaml.webservicelib.model.Constant;
 import com.teamNikaml.webservicelib.model.ParameterMapModel;
 import com.teamNikaml.webservicelib.responseModel.LoginResponseModel;
+import com.teamNikaml.webservicelib.responseModel.TaskDetailsResponseModel;
 import com.teamNikaml.webservicelib.responseModel.TaskResponseModel;
 import com.teamNikaml.webservicelib.webservice.CallWebservice;
 
@@ -18,6 +19,8 @@ public class MainActivity extends Activity {
 	 TaskResponseModel taskResponseModel = new TaskResponseModel();
 	 
 	 LoginResponseModel login = new LoginResponseModel();
+	  
+	 TaskDetailsResponseModel taskDetailsResponseModel = new TaskDetailsResponseModel();
 	
 	private final Handler myHandler = new Handler() {
 		public void handleMessage(Message msg) {
