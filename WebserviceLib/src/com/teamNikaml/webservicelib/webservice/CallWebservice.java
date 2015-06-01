@@ -30,6 +30,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.teamNikaml.webservicelib.model.ReflectionModel;
+import com.teamNikaml.webservicelib.responseModel.TaskResponseModel;
 
 public class CallWebservice {
 
@@ -81,31 +82,7 @@ public class CallWebservice {
 		}
 		
 		
-		private void setObjectData(JSONObject json_data,String fieldName,  Class<?>  classData) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, JSONException, NoSuchMethodException
-		{
-			String setterName = null;
-			
-			
-			System.out.println(classData);
-			
-			//Type t = classData.getTypeParameters();
-			
-			//Object object = (classData.getSimpleName()) classData;
-			
-			
-			setterName = "set"
-					+ fieldName.substring(0, 1)
-							.toUpperCase()
-					+ fieldName.substring(1);
-			// fields[j].set
-			Method set = classData.getMethod(
-					setterName, setterName.getClass());
-			set.invoke(classData,
-					json_data.getString(fieldName));
-			
-			
-			
-		}
+	
 		
 		
 		
@@ -160,11 +137,15 @@ public class CallWebservice {
 						
 						Field field = classObject.getClass().getDeclaredField(listObjectArrayList.get(k));
 						
-						System.out.println("Field name: "+field.getName()+" "+String.valueOf(i));
+					//	System.out.println("Field name: "+field.getName()+" "+String.valueOf(i));
 						
 						 Class<?>  listGenericClass = model.getClassName(field);
 						 
-						 System.out.println(listGenericClass);
+						
+						 
+						 Object myjsonObject = listGenericClass.newInstance();
+						 
+						// System.out.println(listGenericClass);
 						 
 						
 						 
@@ -179,25 +160,35 @@ public class CallWebservice {
 						 
 						 List<String> fieldList1 = model2.getFieldNameList();
 						 
-						 System.out.println(fieldList1);
+						// System.out.println(fieldList1);
 						 
 						 System.out.println("!@@#@#$#@@#$@#$@#$@#$@#$!!!!!####");
 						 
 						//	List<String> listObjectArrayList1 = model.getListObjectArrayList();
 							for (int j = 0; j < fieldList1.size(); j++) {
 								
-								System.out.println(fieldList1.get(j));
+								//System.out.println(fieldList1.get(j));
 								
-								setObjectData(jsonObject,fieldList1.get(j),listGenericClass);
+								setData(jsonObject,fieldList1.get(j),myjsonObject);
 						 
 						
 							}
 						 
 						 
-							 objectList.add(listGenericClass);
+							 objectList.add(myjsonObject);
 						}
 						 
 						
+						
+						
+						String setterName = "set"
+								+ listObjectArrayList.get(k).substring(0, 1)
+										.toUpperCase()
+								+ listObjectArrayList.get(k).substring(1);
+						// fields[j].set
+						Method set = classObject.getClass().getMethod(
+								setterName, setterName.getClass());
+						set.invoke(classObject,objectList);
 					}
 					
 					
@@ -221,9 +212,12 @@ public class CallWebservice {
 			} catch (NoSuchFieldException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			System.out.println(classObject);
-			System.out.println(objectList);
+		//	System.out.println(objectList);
 
 		}
 
