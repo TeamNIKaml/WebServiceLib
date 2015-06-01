@@ -31,7 +31,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.teamNikaml.webservicelib.model.ReflectionModel;
-import com.teamNikaml.webservicelib.model.TaskList;
+import com.teamNikaml.webservicelib.responseModel.TaskResponseModel.TaskList;
 
 public class CallWebservice {
 
@@ -132,7 +132,7 @@ public class CallWebservice {
 					
 						setData(json_data,fieldList.get(j),classObject);
 						
-						
+						//System.out.println(classObject.getClass().getName());
 
 					}
 					
@@ -182,12 +182,8 @@ public class CallWebservice {
 							 objectList.add(myjsonObject);
 						}	
 						
-						List<TaskList> taskLists = new ArrayList<TaskList>();
-						for(int i=0;i<objectList.size();i++)
-						{
-						TaskList task =(TaskList)objectList.get(i);
-						taskLists.add(task);
-						}
+						//List<TaskList> taskLists = new ArrayList<TaskList>();
+						
 					//	System.out.println(taskLists);
 						//taskLists = objectList;
 					//	taskLists.getClass().g
@@ -208,7 +204,7 @@ public class CallWebservice {
 							if(methodName.equals(setterName))
 							{
 								System.out.println("indide : "+method[i].getName()+" Settername: "+setterName);
-								method[i].invoke(classObject,taskLists);
+								method[i].invoke(classObject,objectList);
 								
 								break;
 							}

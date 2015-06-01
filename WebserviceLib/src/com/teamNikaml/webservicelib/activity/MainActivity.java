@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
 	
 	private final Handler myHandler = new Handler() {
 		public void handleMessage(Message msg) {
-			// ((MainActivity) getActivity()).updateDrawer();
+			
 			System.out.println("Myhandler#:"+taskResponseModel);
 		}
 	};
@@ -54,10 +54,13 @@ public class MainActivity extends Activity {
 		// CallWebservice callWebservice = new
 		// CallWebservice(getApplicationContext(), Constant.LOGIN_URL,
 		// mapModel.getLoginMap(), login);
+		// CallWebservice.setHandler(myHandler);
 		// callWebservice.getService();
 
 		/* task */
 		
+		
+		  mapModel.setTaskMap();
 		 CallWebservice callWebservice = new CallWebservice(getApplicationContext(), Constant.TASK_URL,
 				 mapModel.getTaskMap(), taskResponseModel);
 		 CallWebservice.setHandler(myHandler);
