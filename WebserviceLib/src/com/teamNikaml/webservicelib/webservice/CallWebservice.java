@@ -8,7 +8,6 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,18 +24,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.teamNikaml.webservicelib.model.ReflectionModel;
-import com.teamNikaml.webservicelib.responseModel.TaskResponseModel;
 
 public class CallWebservice {
 
 	private static InputStream is = null;
-	// private Context context;
-	// private static User user;
+
 	private String URL;
 	private Map<String, String> parametersMap;
 	private Object classObject;
@@ -56,6 +54,7 @@ public class CallWebservice {
 
 	}
 
+	@SuppressLint("DefaultLocale")
 	private class WebserviceAsyncTask extends
 			AsyncTask<String, Integer, String> {
 		
@@ -87,6 +86,7 @@ public class CallWebservice {
 		
 		
 
+	
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
@@ -111,7 +111,7 @@ public class CallWebservice {
 
 				for (int i = 0; i < json_data.length(); i++) {
 
-					String setterName = null;
+					
 					for (int j = 0; j < fieldList.size(); j++) {
 					
 						setData(json_data,fieldList.get(j),classObject);
@@ -122,8 +122,7 @@ public class CallWebservice {
 					
 				}
 					
-					System.out.println("!!@#@##@#@#@listObjectArrayList");
-					System.out.println(listObjectArrayList);
+				
 					
 					for(int k=0;k<listObjectArrayList.size();k++)
 					{
@@ -150,7 +149,7 @@ public class CallWebservice {
 						
 						 
 						 
-						 Field[] fields2 = listGenericClass.getDeclaredFields();
+				
 						 ReflectionModel model2 = new ReflectionModel();
 						 
 						 model2.setClassName(listGenericClass);
@@ -162,7 +161,7 @@ public class CallWebservice {
 						 
 						// System.out.println(fieldList1);
 						 
-						 System.out.println("!@@#@#$#@@#$@#$@#$@#$@#$!!!!!####");
+						
 						 
 						//	List<String> listObjectArrayList1 = model.getListObjectArrayList();
 							for (int j = 0; j < fieldList1.size(); j++) {
