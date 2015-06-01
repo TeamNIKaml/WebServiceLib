@@ -1,0 +1,6 @@
+{"status":500,"status_message":"WebService Errror",
+"floor":[{"rooms":[{"roomId":"#1234","roominfo":[{"heightOfRoom":"11",
+"magicPlanImageUrl":"image url",
+"accessRequired":[{"tools":"ladder"}]
+  
+}]}]}]}

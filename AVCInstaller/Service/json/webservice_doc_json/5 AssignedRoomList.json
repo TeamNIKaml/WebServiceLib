@@ -1,0 +1,4 @@
+{"status":500,"status_message":"Unable to read from upladed file",
+  "AssignedRoomList":[{"taskId":"1","floor":"1",
+  "roomid":"#1234","roomName":"My room","count":"Electrician 3 Mate 2","startDate":"21-3-2014","EndDate":"31-3-2014"}]
+}

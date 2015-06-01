@@ -1,0 +1,10 @@
+{"status":500,"status_message":"WebService Errror",
+"floor":[{"rooms":[{"taskId":"#123","roomID":"#123","roominfo":[{"heightOfRoom":"11",
+"magicPlanImageUrl":"image url",
+"productList":[{"productName":"Bulb","quantity":6}]}]}]
+  
+}],
+"HSIssue":[{"identifiedHazard":"Hazzard1","classificationCode":"code1","riskLevel":"high","riskManagement":"risk1"}],
+"DynamicRiskAssesment":[{"identifiedHazard":"Hazzard1","classificationCode":"code1","riskLevel":"high","riskManagement":"risk1","comments":"careful"}]
+  
+}
