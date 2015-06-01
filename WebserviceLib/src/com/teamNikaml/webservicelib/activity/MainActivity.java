@@ -1,15 +1,13 @@
 package com.teamNikaml.webservicelib.activity;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.teamNikaml.webservicelib.model.Constant;
-import com.teamNikaml.webservicelib.model.Login;
+import com.teamNikaml.webservicelib.model.ParameterMapModel;
+import com.teamNikaml.webservicelib.responseModel.TaskResponseModel;
 import com.teamNikaml.webservicelib.webservice.CallWebservice;
 
 public class MainActivity extends Activity {
@@ -24,15 +22,23 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		Login login = new Login();
 		
-		Map<String, String> parametersMap = new HashMap<String, String>();
-		parametersMap.put("emailId", "abc@hm.cc");
-		parametersMap.put("password", "loginpassword");
-		parametersMap.put("requestKeyword", "Login");
 		
-		CallWebservice callWebservice = new CallWebservice(getApplicationContext(), Constant.LOGIN_URL, parametersMap, login);
+		
+		ParameterMapModel mapModel = new ParameterMapModel();
+		
+		
+		TaskResponseModel taskResponseModel = new TaskResponseModel();
+		
+		/*login*/
+	//	CallWebservice callWebservice = new CallWebservice(getApplicationContext(), Constant.LOGIN_URL, mapModel.getLoginMap(), login);
+	//	callWebservice.getService();
+		
+		/*task*/
+		CallWebservice callWebservice = new CallWebservice(getApplicationContext(), Constant.TASK_URL, mapModel.getLoginMap(), taskResponseModel);
 		callWebservice.getService();
+		
+		
 		
 	}
 

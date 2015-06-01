@@ -1,5 +1,6 @@
 package com.teamNikaml.webservicelib.responseModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.teamNikaml.webservicelib.model.TaskList;
@@ -7,6 +8,7 @@ import com.teamNikaml.webservicelib.model.TaskList;
 public class TaskResponseModel {
 	
 	private String status,status_message;
+	private List<TaskList> taskResponse  = new ArrayList<TaskList>() ;
 	
 	public String getStatus() {
 		return status;
@@ -24,7 +26,7 @@ public class TaskResponseModel {
 		this.status_message = status_message;
 	}
 
-	private List<TaskList> taskResponse ;
+	
 
 	public List<TaskList> getTaskResponse() {
 		return taskResponse;

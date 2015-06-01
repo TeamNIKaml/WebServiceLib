@@ -1,6 +1,6 @@
-package com.teamNikaml.webservicelib.model;
+package com.teamNikaml.webservicelib.responseModel;
 
-public class Login {
+public class LoginResponseModel {
 	
 	@Override
 	public String toString() {

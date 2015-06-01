@@ -17,6 +17,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -24,6 +26,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.teamNikaml.webservicelib.model.TaskList;
 import com.teamNikaml.webservicelib.responseModel.TaskResponseModel;
 
 public class CallWebservice {
@@ -53,6 +56,7 @@ public class CallWebservice {
 	private class WebserviceAsyncTask extends
 			AsyncTask<String, Integer, String> {
 
+		@SuppressWarnings("unchecked")
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
@@ -113,11 +117,39 @@ public class CallWebservice {
 			}*/
 		//	System.out.println(classObject.getClass().getName()+" : "+classObject);
 			
+			
+			
 			Gson gson = new Gson();
 			TaskResponseModel responseModel = gson.fromJson(result,
 			                                            TaskResponseModel.class);
 			
 			System.out.println(responseModel);
+			
+		//	System.out.println(responseModel.getTaskResponse().size());
+			
+			/*ArrayList<ObjectA> la = new ArrayList<ObjectA>();
+List<ObjectA> list = new Gson().fromJson(json, la.getClass());*/
+			
+			
+			List<TaskList> taskResponse  = new ArrayList<TaskList>() ;
+			JSONArray array = null;
+			
+			try {
+				json_data = new JSONObject(result);
+				array = json_data.getJSONArray("TaskList");
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			
+			
+			taskResponse =  gson.fromJson(array.toString(), taskResponse.getClass());
+			
+			
+			
+			System.out.println("taskResponse:"+taskResponse.size());
+			System.out.println("taskResponseList:"+taskResponse);
+			
 		}
 
 		@Override
