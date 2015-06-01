@@ -8,11 +8,23 @@ public class ParameterMapModel {
 	private Map<String, String> loginMap = new HashMap<String, String>();
 
 	private Map<String, String> taskMap = new HashMap<String, String>();
+	
+	private Map<String, String> taskDetailsMap = new HashMap<String, String>();
 
+	public Map<String, String> getTaskDetailsMap() {
+		return taskDetailsMap;
+	}
+	public void setTaskDetailsMap() {
+		
+		taskDetailsMap.put("userKey", "6bc459e0cf4082e7f49a56ebea0ae2d7d");
+		taskDetailsMap.put("taskId", "1");
+		taskDetailsMap.put("requestKeyword", "taskDetails");
+		
+	}
 	public Map<String, String> getTaskMap() {
 		return taskMap;
 	}
-
+	//taskId
 	public void setTaskMap() {
 		//this.taskMap = taskMap;
 		taskMap.put("userKey", "6bc459e0cf4082e7f49a56ebea0ae2d7d");

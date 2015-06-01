@@ -5,6 +5,12 @@ import java.util.List;
 
 public class TaskDetailsResponseModel {
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "status : "+status+" status_message: "+status_message;
+	}
+
 	private String status, status_message;
 	private List<TaskDetails> taskDetails = new ArrayList<TaskDetails>();
 	private List<AssignedResources> assignedResources = new ArrayList<AssignedResources>();
@@ -55,6 +61,15 @@ public class TaskDetailsResponseModel {
 	}
 
 	public static class TaskDetails {
+
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return "taskId: "+taskId+" projectId: "+ projectId+" projectName:"+ projectName+" customerName:"+ customerName+
+					" siteName:"+ siteName+"contactPerson:"+contactPerson+" contactNumber:"+ contactNumber+
+					"teamLead:"+ teamLead+"siteNumber:"+ siteNumber+"street"+street+"streetNumber"+streetNumber+
+					"city:"+ city+"country"+ country+"postalCode"+ postalCode;
+		}
 
 		private String taskId, projectId, projectName, customerName, siteName,
 				contactPerson, contactNumber, teamLead, siteNumber;
@@ -179,6 +194,14 @@ public class TaskDetailsResponseModel {
 	}
 
 	public static class AssignedResources {
+
+		
+		
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return "name"+name+"resourceURL"+resourceURL;
+		}
 
 		private String name, resourceURL;
 
