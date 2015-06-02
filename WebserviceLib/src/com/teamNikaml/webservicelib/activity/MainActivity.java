@@ -99,6 +99,7 @@ public class MainActivity extends Activity {
 		
 		mapModel.setAsbestosDataMap();
 		mapModel.setAsbestosFileMap(path);
+		System.out.println("map size");
 		FileuploadWebService fileuploadWebService = new FileuploadWebService(Constant.ASBESTOS_REGISTER_URL,
 				mapModel.getAsbestosDataMap(), mapModel.getAsbestosFileMap(), asbestosRegisterResponseModel);
 		FileuploadWebService.setHandler(myHandler);
