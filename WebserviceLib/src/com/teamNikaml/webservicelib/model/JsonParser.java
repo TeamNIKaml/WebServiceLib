@@ -29,7 +29,7 @@ public class JsonParser {
 		String setterName = null;
 		setterName = "set" + fieldName.substring(0, 1).toUpperCase()
 				+ fieldName.substring(1);
-		// fields[j].set
+	
 		Method set = classData.getClass().getMethod(setterName,
 				setterName.getClass());
 		set.invoke(classData, json_data.getString(fieldName));
@@ -37,35 +37,81 @@ public class JsonParser {
 	}
 
 	public void parseJson(String result) {
-		String setterName;
+
 		JSONObject json_data;
-		Method[] method;
+
+		try {
+			json_data = new JSONObject(result);
+
+			init(json_data, classObject);
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void init(JSONObject json_data, Object classObject) {
+		// TODO Auto-generated method stub
+
 		ReflectionModel model = new ReflectionModel();
 		model.setClassName(classObject.getClass());
 		model.getFieldName();
 		List<String> fieldList = model.getFieldNameList();
 		List<String> listObjectArrayList = model.getListObjectArrayList();
 		List<String> innerClassList = model.getInnerclassList();
-		List<Object> objectList = new ArrayList<Object>();
-		JSONObject jsonObject;
-		JSONArray jsonArray;
-		Class<?> listGenericClass = null;
+		if(fieldList.size()>0)
+		parsejsonString(json_data, fieldList, classObject);
+		if(innerClassList.size()>0)
+		parsejsonObject(json_data, innerClassList, classObject);
+		if(listObjectArrayList.size()>0)
+		parsejsonObjectArray(json_data, listObjectArrayList, classObject);
+
+	}
+
+	private void parsejsonString(JSONObject json_data, List<String> fieldList,
+			Object classObject) {
+
 		try {
-			
-			json_data = new JSONObject(result);
-			
+
+			for (int i = 0; i < json_data.length(); i++) {
+
+				for (int j = 0; j < fieldList.size(); j++) {
+
+					setData(json_data, fieldList.get(j), classObject);
+
+				}
+			}
+
+		} catch (JSONException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void parsejsonObject(JSONObject json_data,
+			List<String> innerClassList, Object classObject) {
+		JSONObject jsonObject;
+
+		try {
 
 			for (int i = 0; i < innerClassList.size(); i++) {
-				jsonObject = json_data.getJSONObject(innerClassList.get(i));
 
+				jsonObject = json_data.getJSONObject(innerClassList.get(i));
 				Field field = classObject.getClass().getDeclaredField(
 						innerClassList.get(i));
 
-				listGenericClass = field.getType();
+				Class<?> listGenericClass = field.getType();
 
 				Object myjsonObject = listGenericClass.newInstance();
+				
+				init(jsonObject, myjsonObject);
 
-				ReflectionModel model2 = new ReflectionModel();
+			/*	ReflectionModel model2 = new ReflectionModel();
 
 				model2.setClassName(listGenericClass);
 
@@ -77,34 +123,49 @@ public class JsonParser {
 
 					setData(jsonObject, fieldList1.get(j), myjsonObject);
 
-				}
+				}*/
 
-				System.out.println("TaskList object:" + myjsonObject);
-
-				setterName = "set"
+				String setterName = "set"
 						+ innerClassList.get(i).substring(0, 1).toUpperCase()
 						+ innerClassList.get(i).substring(1);
-
-				method = classObject.getClass().getMethods();
+				Method[] method = classObject.getClass().getMethods();
 
 				for (int k = 0; k < method.length; k++) {
 
 					String methodName = method[k].getName();
-					System.out.println("outside setTaskList : "
-							+ method[k].getName() + " Settername: "
-							+ setterName);
+
 					if (methodName.equals(setterName)) {
-						System.out.println("indide setTaskList : "
-								+ method[k].getName() + " Settername: "
-								+ setterName);
+
 						method[k].invoke(classObject, myjsonObject);
 
 						break;
 					}
 				}
+				
 			}
+			
+		} catch (JSONException | IllegalAccessException
+				| IllegalArgumentException | NoSuchFieldException | InstantiationException | InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void parsejsonObjectArray(JSONObject json_data,
+			List<String> listObjectArrayList, Object classObject) {
+
+		JSONArray jsonArray;
+		JSONObject jsonObject;
+		Class<?> listGenericClass;
+		List<Object> objectList = new ArrayList<Object>();
+
+		ReflectionModel model = new ReflectionModel();
+
+		try {
 
 			for (int k = 0; k < listObjectArrayList.size(); k++) {
+
 				jsonArray = json_data.getJSONArray(listObjectArrayList.get(k));
 
 				for (int i = 0; i < jsonArray.length(); i++) {
@@ -117,8 +178,9 @@ public class JsonParser {
 					listGenericClass = model.getClassName(field);
 
 					Object myjsonObject = listGenericClass.newInstance();
+					init(jsonObject, myjsonObject);
 
-					ReflectionModel model2 = new ReflectionModel();
+				/*	ReflectionModel model2 = new ReflectionModel();
 
 					model2.setClassName(listGenericClass);
 
@@ -130,17 +192,17 @@ public class JsonParser {
 
 						setData(jsonObject, fieldList1.get(j), myjsonObject);
 
-					}
+					}*/
 
 					objectList.add(myjsonObject);
 				}
 
-				setterName = "set"
+				String setterName = "set"
 						+ listObjectArrayList.get(k).substring(0, 1)
 								.toUpperCase()
 						+ listObjectArrayList.get(k).substring(1);
 
-				method = classObject.getClass().getMethods();
+				Method[] method = classObject.getClass().getMethods();
 
 				for (int i = 0; i < method.length; i++) {
 
@@ -154,66 +216,19 @@ public class JsonParser {
 
 			}
 
-		} catch (final JSONException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void parsejsonString(String result,List<String> fieldList) {
-		JSONObject json_data;
-		
-		try {
-			json_data = new JSONObject(result);
-			
-			for (int i = 0; i < json_data.length(); i++) {
-
-				for (int j = 0; j < fieldList.size(); j++) {
-
-					setData(json_data, fieldList.get(j), classObject);
-
-					
-
-				}
-			}
-			
-			
-		} catch (JSONException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException e) {
+		} catch (JSONException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException
+				| NoSuchFieldException | InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		
-		
-		
+	} 
+	
+	
 		
 		
 		
 	}
 
-	public void parsejsonObject() {
 
-	}
-
-	public void parsejsonObjectArray() {
-
-	}
-
-}
