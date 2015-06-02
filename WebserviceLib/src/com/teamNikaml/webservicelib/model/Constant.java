@@ -15,5 +15,10 @@ public class Constant {
 	/* TASK_DETAILS_URL */
 	public static final String TASK_DETAILS_URL = HOST+"3TaskDetailsWebservice.php";
 	
+	
+	/* ASBESTOS_REGISTER_URL */
+	public static final String ASBESTOS_REGISTER_URL = HOST	+ "30AsbestosRegisterWebservice.php";
+	
+	
 
 }

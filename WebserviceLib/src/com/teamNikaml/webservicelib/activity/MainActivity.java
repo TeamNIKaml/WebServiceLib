@@ -1,6 +1,16 @@
 package com.teamNikaml.webservicelib.activity;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,23 +19,31 @@ import android.view.MenuItem;
 
 import com.teamNikaml.webservicelib.model.Constant;
 import com.teamNikaml.webservicelib.model.ParameterMapModel;
+import com.teamNikaml.webservicelib.responseModel.AsbestosRegisterResponseModel_30;
 import com.teamNikaml.webservicelib.responseModel.LoginResponseModel_1;
 import com.teamNikaml.webservicelib.responseModel.TaskDetailsResponseModel_3;
 import com.teamNikaml.webservicelib.responseModel.TaskResponseModel_2;
-import com.teamNikaml.webservicelib.webservice.CallWebservice;
+import com.teamNikaml.webservicelib.webservice.FileuploadWebService;
 
 public class MainActivity extends Activity {
+	
+	
+	//          /data/data/com.avc.avcinstaller.activity/files/Customer_Signature_20150602_144343.jpg
+//	           /data/data/com.avc.avcinstaller.activity/files/Competent_Person_Signature_20150602_144349.jpg
+
 	
 	 TaskResponseModel_2 taskResponseModel = new TaskResponseModel_2();
 	 
 	 LoginResponseModel_1 login = new LoginResponseModel_1();
 	  
 	 TaskDetailsResponseModel_3 taskDetailsResponseModel = new TaskDetailsResponseModel_3();
+	 
+	 AsbestosRegisterResponseModel_30 asbestosRegisterResponseModel = new AsbestosRegisterResponseModel_30();
 	
 	private final Handler myHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			
-			System.out.println("Myhandler#:"+taskDetailsResponseModel);
+			System.out.println("Myhandler#:"+asbestosRegisterResponseModel);
 		}
 	};
 	
@@ -49,7 +67,8 @@ public class MainActivity extends Activity {
 
 		ParameterMapModel mapModel = new ParameterMapModel();
 
-	
+	Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+	String path=createImageFile("myfile", getApplicationContext(), bitmap);
 
 		/* login */
 		// 
@@ -72,12 +91,18 @@ public class MainActivity extends Activity {
 		 
 		 /*Task Details*/
 		
-		 mapModel.setTaskDetailsMap();
+		/* mapModel.setTaskDetailsMap();
 		 CallWebservice callWebservice = new CallWebservice(getApplicationContext(), Constant.TASK_DETAILS_URL,
 				 mapModel.getTaskDetailsMap(), taskDetailsResponseModel);
 		 CallWebservice.setHandler(myHandler);
-		 callWebservice.getService();
-		 
+		 callWebservice.getService();*/
+		
+		mapModel.setAsbestosDataMap();
+		mapModel.setAsbestosFileMap(path);
+		FileuploadWebService fileuploadWebService = new FileuploadWebService(Constant.ASBESTOS_REGISTER_URL,
+				mapModel.getAsbestosDataMap(), mapModel.getAsbestosFileMap(), asbestosRegisterResponseModel);
+		FileuploadWebService.setHandler(myHandler);
+		 fileuploadWebService.getService();
 
 	}
 
@@ -99,4 +124,32 @@ public class MainActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	public  String createImageFile(String imageFileName,
+			Context context,Bitmap tempSignature ) {
+		int BUFFER_SIZE = 1024 * 8;
+		File file;
+		//tempSignature = bitmap;
+		file = new File(context.getFilesDir() + "/" + imageFileName + ".jpg");
+		try {
+			file.createNewFile();
+			FileOutputStream fos = new FileOutputStream(file);
+			final BufferedOutputStream bos = new BufferedOutputStream(fos,
+					BUFFER_SIZE);
+			tempSignature.compress(CompressFormat.JPEG, 100, bos);
+			bos.flush();
+			bos.close();
+			fos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+
+		}
+		System.out.println("path : " + file.getAbsolutePath());
+
+		
+
+		return file.getAbsolutePath();
+	}
+	
 }

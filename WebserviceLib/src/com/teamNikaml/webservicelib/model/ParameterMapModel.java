@@ -10,7 +10,24 @@ public class ParameterMapModel {
 	private Map<String, String> taskMap = new HashMap<String, String>();
 	
 	private Map<String, String> taskDetailsMap = new HashMap<String, String>();
+	
+	private Map<String, String> asbestosDataMap = new HashMap<String, String>();
+	private Map<String, String> asbestosFileMap = new HashMap<String, String>();
 
+	public Map<String, String> getAsbestosDataMap() {
+		return asbestosDataMap;
+	}
+	public void setAsbestosDataMap() {
+		asbestosDataMap.put("userKey", "6bc459e0cf4082e7f49a56ebea0ae2d7d");
+		asbestosDataMap.put("requestKeyword", "Asbestos Register");
+	}
+	public Map<String, String> getAsbestosFileMap() {
+		return asbestosFileMap;
+	}
+	public void setAsbestosFileMap(String path) {
+		asbestosDataMap.put("uploaded_file", path);
+		//asbestosDataMap.put("requestKeyword", "Asbestos Register");
+	}
 	public Map<String, String> getTaskDetailsMap() {
 		return taskDetailsMap;
 	}
