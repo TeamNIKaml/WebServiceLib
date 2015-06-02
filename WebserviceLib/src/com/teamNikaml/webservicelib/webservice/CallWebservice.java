@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,18 +17,13 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 
-import com.teamNikaml.webservicelib.model.ReflectionModel;
-import com.teamNikaml.webservicelib.responseModel.TaskResponseModel.TaskList;
+import com.teamNikaml.webservicelib.model.JsonParser;
 
 public class CallWebservice {
 
@@ -40,24 +32,19 @@ public class CallWebservice {
 	private String URL;
 	private Map<String, String> parametersMap;
 	private Object classObject;
-	
+
 	private static Handler myHandler;
-	
-	
+
 	public static void setHandler(Handler h) {
 		myHandler = h;
 	}
 
 	private void callHandler() {
-		
-	
-		
+
 		if (myHandler != null) {
 			myHandler.sendEmptyMessage(1);
 		}
 	}
-	
-	
 
 	public CallWebservice(Context context, String uRL,
 			Map<String, String> parametersMap, Object classObject) {
@@ -74,185 +61,16 @@ public class CallWebservice {
 
 	}
 
-	@SuppressLint("DefaultLocale")
 	private class WebserviceAsyncTask extends
 			AsyncTask<String, Integer, String> {
-		
-		private void setData(JSONObject json_data,String fieldName,  Object classData) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, JSONException, NoSuchMethodException
-		{
-			String setterName = null;
-			setterName = "set"
-					+ fieldName.substring(0, 1)
-							.toUpperCase()
-					+ fieldName.substring(1);
-			// fields[j].set
-			Method set = classData.getClass().getMethod(
-					setterName, setterName.getClass());
-			set.invoke(classData,
-					json_data.getString(fieldName));
-			
-			
-			
-		}
-		
-		
-	
-		
-		
-		
 
-	
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-
-			JSONObject json_data;
-			ReflectionModel model = new ReflectionModel();
-
-			model.setClassName(classObject.getClass());
-
-			model.getFieldName();
-
-			List<String> fieldList = model.getFieldNameList();
-			List<String> listObjectArrayList = model.getListObjectArrayList();
-			List<Object> objectList = new ArrayList<Object>();
-			
-			JSONArray jsonArray;
-			Class<?>  listGenericClass = null;
-		
-
-			try {
-				json_data = new JSONObject(result);
-
-				for (int i = 0; i < json_data.length(); i++) {
-
-					
-					for (int j = 0; j < fieldList.size(); j++) {
-					
-						setData(json_data,fieldList.get(j),classObject);
-						
-						//System.out.println(classObject.getClass().getName());
-
-					}
-					
-				}
-					
-				
-					
-					for(int k=0;k<listObjectArrayList.size();k++)
-					{
-						jsonArray = json_data.getJSONArray(listObjectArrayList.get(k));
-						JSONObject jsonObject;
-						
-						for (int i = 0; i < jsonArray.length(); i++) {
-							
-							jsonObject = jsonArray.getJSONObject(i);
-						
-						
-						Field field = classObject.getClass().getDeclaredField(listObjectArrayList.get(k));
-						
-					
-						
-						listGenericClass  = model.getClassName(field);
-						 
-						
-						 
-						 Object myjsonObject = listGenericClass.newInstance();
-						 
-					
-						 ReflectionModel model2 = new ReflectionModel();
-						 
-						 model2.setClassName(listGenericClass);
-						 
-						 model2.getFieldName();
-						 
-						 
-						 List<String> fieldList1 = model2.getFieldNameList();
-				
-							for (int j = 0; j < fieldList1.size(); j++) {
-								
-														
-								setData(jsonObject,fieldList1.get(j),myjsonObject);
-						 
-						
-							}
-						 
-						 
-							 objectList.add(myjsonObject);
-						}	
-						
-						//List<TaskList> taskLists = new ArrayList<TaskList>();
-						
-					//	System.out.println(taskLists);
-						//taskLists = objectList;
-					//	taskLists.getClass().g
-						String setterName = "set"
-								+ listObjectArrayList.get(k).substring(0, 1)
-										.toUpperCase()
-								+ listObjectArrayList.get(k).substring(1);
-						
-					//	System.out.println(setterName);
-						
-						Method[] method = classObject.getClass().getMethods();
-								
-							
-						for(int i=0;i<method.length;i++)
-						{
-							
-							String methodName = method[i].getName();
-							if(methodName.equals(setterName))
-							{
-								System.out.println("indide : "+method[i].getName()+" Settername: "+setterName);
-								method[i].invoke(classObject,objectList);
-								
-								break;
-							}
-						}
-						
-						
-					//	TaskResponseModel task =(TaskResponseModel)classObject;
-				
-						
-					
-								
-								
-								
-								
-								
-								
-								
-								
-						
-					}
-					
-					
-
-				
-
-			} catch (final JSONException e) {
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchFieldException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		//	System.out.println(classObject);
-		//	System.out.println(objectList.size());
+			JsonParser jsonParser = new JsonParser();
+			jsonParser.setClassObject(classObject);
+			jsonParser.parseJson(result);
 			callHandler();
 		}
 

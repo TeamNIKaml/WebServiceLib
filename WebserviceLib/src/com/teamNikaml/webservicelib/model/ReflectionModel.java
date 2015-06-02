@@ -2,7 +2,6 @@ package com.teamNikaml.webservicelib.model;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,18 +10,42 @@ public class ReflectionModel {
 	private Class<?> className;
 	private List<String> fieldNameList = new ArrayList<String>();
 	private List<String> listObjectArrayList = new ArrayList<String>();
+	private List<String> innerclassList = new ArrayList<String>();
 
 	public void getFieldName() {
 		
 		Field[] fields = className.getDeclaredFields();
-		Type type;
+		
+		Class<?>[] innerclass = className.getDeclaredClasses();
+		
+	
+		Class<?> fieldClass;
+    int flag =0;
 
 
 		for (int i = 0; i < fields.length; i++) {
 
-			type = fields[i].getType();
+			fieldClass = fields[i].getType();
+			
+			flag =0;
+			
+			for(int j=0;j<innerclass.length;j++)
+	    	{
+				
+				
+				if(innerclass[j].getSimpleName().equals(fieldClass.getSimpleName()))
+				{
+					innerclassList.add(fields[i].getName());
+					flag =1;
+					break;
+				}
+	    	}
+			
+			if(flag == 1)
+				continue;
+			
 
-			if (type.toString().equals("interface java.util.List")) {
+			 if (fieldClass.getSimpleName().equals("List")) {
 		
 				
 				listObjectArrayList.add(fields[i].getName());
@@ -37,6 +60,16 @@ public class ReflectionModel {
 	}
 	
 	
+	public List<String> getInnerclassList() {
+		return innerclassList;
+	}
+
+
+	public void setInnerclassList(List<String> innerclassList) {
+		this.innerclassList = innerclassList;
+	}
+
+
 	public Class<?> getClassName(Field field)
 	{
 		

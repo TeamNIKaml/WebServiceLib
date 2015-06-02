@@ -8,11 +8,19 @@ public class TaskDetailsResponseModel {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "status : "+status+" status_message: "+status_message;
+		return "status : "+status+" status_message: "+status_message+" taskDetails: "+taskDetails+" assignedResources: "+assignedResources;
 	}
 
 	private String status, status_message;
-	private List<TaskDetails> taskDetails = new ArrayList<TaskDetails>();
+	private TaskDetails taskDetails;
+	public TaskDetails getTaskDetails() {
+		return taskDetails;
+	}
+
+	public void setTaskDetails(Object taskDetailsObject) {
+		this.taskDetails =(TaskDetails) taskDetailsObject;
+	}
+
 	private List<AssignedResources> assignedResources = new ArrayList<AssignedResources>();
 
 	public String getStatus() {
@@ -31,19 +39,7 @@ public class TaskDetailsResponseModel {
 		this.status_message = status_message;
 	}
 
-	public List<TaskDetails> getTaskDetails() {
-		return taskDetails;
-	}
 
-	public void setTaskDetails(List<Object> objectList) {
-
-		for (int i = 0; i < objectList.size(); i++) {
-			TaskDetails task = (TaskDetails) objectList.get(i);
-			taskDetails.add(task);
-		}
-
-		// this.taskDetails = taskDetails;
-	}
 
 	public List<AssignedResources> getAssignedResources() {
 		return assignedResources;
@@ -67,8 +63,8 @@ public class TaskDetailsResponseModel {
 			// TODO Auto-generated method stub
 			return "taskId: "+taskId+" projectId: "+ projectId+" projectName:"+ projectName+" customerName:"+ customerName+
 					" siteName:"+ siteName+"contactPerson:"+contactPerson+" contactNumber:"+ contactNumber+
-					"teamLead:"+ teamLead+"siteNumber:"+ siteNumber+"street"+street+"streetNumber"+streetNumber+
-					"city:"+ city+"country"+ country+"postalCode"+ postalCode;
+					" teamLead:"+ teamLead+" siteNumber:"+ siteNumber+" street: "+street+" streetNumber:"+streetNumber+
+					"city:"+ city+" country :"+ country+" postalCode:"+ postalCode;
 		}
 
 		private String taskId, projectId, projectName, customerName, siteName,
@@ -200,7 +196,7 @@ public class TaskDetailsResponseModel {
 		@Override
 		public String toString() {
 			// TODO Auto-generated method stub
-			return "name"+name+"resourceURL"+resourceURL;
+			return "name: "+name+" resourceURL: "+resourceURL;
 		}
 
 		private String name, resourceURL;
