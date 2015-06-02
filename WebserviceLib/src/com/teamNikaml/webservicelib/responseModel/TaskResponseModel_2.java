@@ -3,7 +3,7 @@ package com.teamNikaml.webservicelib.responseModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskResponseModel {
+public class TaskResponseModel_2 {
 	
 	private String status,status_message;
 	private List<TaskList> taskList  = new ArrayList<TaskList>() ;

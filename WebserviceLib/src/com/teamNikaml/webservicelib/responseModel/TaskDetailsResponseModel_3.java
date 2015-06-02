@@ -3,7 +3,7 @@ package com.teamNikaml.webservicelib.responseModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskDetailsResponseModel {
+public class TaskDetailsResponseModel_3 {
 
 	@Override
 	public String toString() {
