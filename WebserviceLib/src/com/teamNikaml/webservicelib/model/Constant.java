@@ -20,5 +20,9 @@ public class Constant {
 	public static final String ASBESTOS_REGISTER_URL = HOST	+ "30AsbestosRegisterWebservice.php";
 	
 	
+	/* PERMIT_TO_WORK_SUBMIT_URL */
+	public static final String PERMIT_TO_WORK_SUBMIT_URL = HOST	+ "15PemitToWorkSubmitWebservice.php";
+	
+	
 
 }

@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,11 +20,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.teamNikaml.webservicelib.model.Constant;
+import com.teamNikaml.webservicelib.model.Dictionary;
 import com.teamNikaml.webservicelib.model.ParameterMapModel;
 import com.teamNikaml.webservicelib.responseModel.AsbestosRegister_30;
 import com.teamNikaml.webservicelib.responseModel.LoginResponseModel_1;
+import com.teamNikaml.webservicelib.responseModel.PermitToWorkSubmit_15;
 import com.teamNikaml.webservicelib.responseModel.TaskDetailsResponseModel_3;
 import com.teamNikaml.webservicelib.responseModel.TaskResponseModel_2;
+import com.teamNikaml.webservicelib.webservice.CallWebservice;
 import com.teamNikaml.webservicelib.webservice.FileuploadWebService;
 
 public class MainActivity extends Activity {
@@ -39,7 +44,13 @@ public class MainActivity extends Activity {
 	 TaskDetailsResponseModel_3 taskDetailsResponseModel = new TaskDetailsResponseModel_3();
 	 
 	 AsbestosRegister_30 asbestosRegisterResponseModel = new AsbestosRegister_30();
+	 PermitToWorkSubmit_15 permitToWorkSubmit = new PermitToWorkSubmit_15();
+	 
+	 List<Dictionary> parameterList = new ArrayList<Dictionary>();
 	
+	 
+	
+	 
 	private final Handler myHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			
@@ -47,29 +58,73 @@ public class MainActivity extends Activity {
 		}
 	};
 	
-
+	
 	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		setData();
 
+	
+	
+	
+
+	}
+
+	private void setData() {
+		// TODO Auto-generated method stub
+		
+		ParameterMapModel mapModel = new ParameterMapModel();
+
+		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+		String customerSignaturePath=createImageFile("CustomerSignature", getApplicationContext(), bitmap);
+		String competentPersonSignaturePath=createImageFile("competentPersonSignature", getApplicationContext(), bitmap);
+		
+		
+		String asbestosRegisterPath=createImageFile("AsbestosRegisterSignature", getApplicationContext(), bitmap);
+		
 		// params1.add(new BasicNameValuePair("emailId", user.getEmailId()));
 		// params1.add(new BasicNameValuePair("password", user.getPassword()));
 		// params1.add(new BasicNameValuePair("userType",
 		// user.getDesignation()));
 		// /.add(new BasicNameValuePair("requestKeyword", "Login"));
 		
+	
+		 //Login
+		/* parameterList.add(new Dictionary("emailId","abc@gg.cc"));
+		parameterList.add(new Dictionary("password","nik@123"));
+		parameterList.add(new Dictionary("requestKeyword","Login"));*/
 		
+		//CallWebservice callWebservice = new CallWebservice(Constant.LOGIN_URL, login, parameterList);
+	//	CallWebservice.setHandler(myHandler);
+	//	callWebservice.getService();
+		
+		//asbestos register
+
+		
+		
+		parameterList.add(new Dictionary("uploaded_file",asbestosRegisterPath));
+		parameterList.add(new Dictionary("userKey","nik@6bc459e0cf4082e7f49a56ebea0ae2d7d"));
+		parameterList.add(new Dictionary("requestKeyword","Asbestos Register"));
+		
+		
+		
+		
+		
+		
+		FileuploadWebService fileuploadWebService = new FileuploadWebService(Constant.LOGIN_URL, parameterList, asbestosRegisterResponseModel);
+		FileuploadWebService.setHandler(myHandler);
+		fileuploadWebService.getService();
 		
 		
 
-		ParameterMapModel mapModel = new ParameterMapModel();
-
-	Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-	String customerSignaturePath=createImageFile("CustomerSignature", getApplicationContext(), bitmap);
-	String competentPersonSignaturePath=createImageFile("competentPersonSignature", getApplicationContext(), bitmap);
+	
+	
+	//System.out.println("competentPersonSignaturePath"+competentPersonSignaturePath);
+	//System.out.println("customerSignaturePath"+customerSignaturePath);
 
 		/* login */
 		// 
@@ -98,14 +153,30 @@ public class MainActivity extends Activity {
 		 CallWebservice.setHandler(myHandler);
 		 callWebservice.getService();*/
 		
-		/*mapModel.setAsbestosDataMap();
-		mapModel.setAsbestosFileMap(path);
+		 //Asbestos register 15 
+		 
+		/* mapModel.setAsbestosDataMap();
+		mapModel.setAsbestosFileMap(competentPersonSignaturePath);
 		System.out.println("map size");
 		FileuploadWebService fileuploadWebService = new FileuploadWebService(Constant.ASBESTOS_REGISTER_URL,
 				mapModel.getAsbestosDataMap(), mapModel.getAsbestosFileMap(), asbestosRegisterResponseModel);
 		FileuploadWebService.setHandler(myHandler);
 		 fileuploadWebService.getService();*/
 
+	
+	   //permit to work submit 15
+	/*String[] path = {competentPersonSignaturePath,customerSignaturePath};
+	
+	mapModel.setPermitToWorkSubmitDataMap();
+	mapModel.setPermitToWorkSubmitFileMap(path);
+	System.out.println("map size"+mapModel.getPermitToWorkSubmitFileMap());
+	FileuploadWebService fileuploadWebService = new FileuploadWebService(Constant.PERMIT_TO_WORK_SUBMIT_URL,
+			mapModel.getPermitToWorkSubmitDataMap(), mapModel.getPermitToWorkSubmitFileMap(), permitToWorkSubmit);
+	FileuploadWebService.setHandler(myHandler);
+	 fileuploadWebService.getService();*/
+		
+		
+		
 	}
 
 	@Override

@@ -6,9 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -18,11 +16,11 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 
+import com.teamNikaml.webservicelib.model.Dictionary;
 import com.teamNikaml.webservicelib.model.JsonParser;
 
 public class CallWebservice {
@@ -30,8 +28,9 @@ public class CallWebservice {
 	private static InputStream is = null;
 
 	private String URL;
-	private Map<String, String> parametersMap;
+
 	private Object classObject;
+	private List<Dictionary> parameterList = new ArrayList<Dictionary>();
 
 	private static Handler myHandler;
 
@@ -46,13 +45,19 @@ public class CallWebservice {
 		}
 	}
 
-	public CallWebservice(Context context, String uRL,
-			Map<String, String> parametersMap, Object classObject) {
+	/*
+	 * public CallWebservice(Context context, String uRL, Map<String, String>
+	 * parametersMap, Object classObject) { super(); // this.context = context;
+	 * URL = uRL; this.parametersMap = parametersMap; this.classObject =
+	 * classObject; }
+	 */
+
+	public CallWebservice(String uRL, Object classObject,
+			List<Dictionary> parameterList) {
 		super();
-		// this.context = context;
 		URL = uRL;
-		this.parametersMap = parametersMap;
 		this.classObject = classObject;
+		this.parameterList = parameterList;
 	}
 
 	public void getService() {
@@ -75,24 +80,16 @@ public class CallWebservice {
 		}
 
 		@Override
-		@SuppressWarnings("rawtypes")
 		protected String doInBackground(String... params) {
 
 			String json = "";
 			final List<BasicNameValuePair> params1 = new ArrayList<BasicNameValuePair>();
-
-			Iterator entries = parametersMap.entrySet().iterator();
-			while (entries.hasNext()) {
-
-				Map.Entry entry = (Map.Entry) entries.next();
-				String key = (String) entry.getKey();
-				String value = (String) entry.getValue();
-				System.out.println("Key = " + key + ", Value = " + value);
-
-				params1.add(new BasicNameValuePair(key, value));
-
+			Dictionary dictionary;
+			for (int i = 0; i < parameterList.size(); i++) {
+				dictionary = parameterList.get(i);
+				params1.add(new BasicNameValuePair(dictionary.getKey(),
+						dictionary.getValue()));
 			}
-
 			try {
 
 				HttpPost httpPost = null;
