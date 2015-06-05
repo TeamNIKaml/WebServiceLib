@@ -178,21 +178,18 @@ public class FileuploadWebService {
 				URL url = new URL(URL);
 
 				conn = (HttpURLConnection) url.openConnection();
-			//	conn.setDoInput(true); // Allow Inputs
-				//conn.setDoOutput(true); // Allow Outputs
-			//	conn.setUseCaches(false); // Don't use a Cached Copy
+				conn.setDoInput(true); // Allow Inputs
+			//	conn.setDoOutput(true); // Allow Outputs
+				conn.setUseCaches(false); // Don't use a Cached Copy
 				
-			//	conn.setRequestProperty("User-Agent","Mozilla/5.0 ( compatible ) ");
-				conn.setRequestProperty("Accept","*/*");
-				
-				
-				
+				//conn.setRequestProperty("User-Agent","Mozilla/5.0 ( compatible ) ");
+				//conn.setRequestProperty("Accept","*/*");				
 				conn.setRequestMethod("POST");
 				conn.setRequestProperty("Connection", "Keep-Alive");
 				conn.setRequestProperty("ENCTYPE", "multipart/form-data");
 				conn.setRequestProperty("Content-Type",
 						"multipart/form-data;boundary=" + boundary);
-				conn.setRequestProperty("uploaded_file", "");
+		
 
 				/*entries = fileDataMap.entrySet().iterator();
 
@@ -235,12 +232,6 @@ public class FileuploadWebService {
 
 			
 				dos = new DataOutputStream(conn.getOutputStream());
-				
-				
-				
-				
-				
-				
 				
 				for(int i=0;i<fileList.size();i++)
 				{
@@ -404,7 +395,7 @@ public class FileuploadWebService {
 					fileInputStream[i].close();
 					
 				}
-				final BufferedReader reader = new BufferedReader(
+			/*	final BufferedReader reader = new BufferedReader(
 						new InputStreamReader(conn.getInputStream(),
 								"iso-8859-1"), 8);
 				final StringBuilder sb = new StringBuilder();
@@ -415,7 +406,25 @@ public class FileuploadWebService {
 
 				json = sb.toString();
 
-				System.out.println("Respone" + json);
+				System.out.println("Respone" + json);*/
+				
+				json="{status:"+conn.getResponseCode()+",status_message:\""+conn.getResponseMessage()+"\"}";
+				
+				
+				if(conn.getResponseCode() == 200)
+				{
+					final BufferedReader reader = new BufferedReader(
+							new InputStreamReader(conn.getInputStream(),
+									"iso-8859-1"), 8);
+					final StringBuilder sb = new StringBuilder();
+					String line = null;
+					while ((line = reader.readLine()) != null) {
+						sb.append(line);
+					}
+
+					json = sb.toString();
+				}
+				System.out.println("json: "+json);
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

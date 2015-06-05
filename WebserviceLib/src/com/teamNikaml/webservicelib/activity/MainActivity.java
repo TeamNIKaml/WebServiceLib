@@ -115,7 +115,7 @@ public class MainActivity extends Activity {
 		
 		
 		
-		FileuploadWebService fileuploadWebService = new FileuploadWebService(Constant.LOGIN_URL, parameterList, asbestosRegisterResponseModel);
+		FileuploadWebService fileuploadWebService = new FileuploadWebService(Constant.ASBESTOS_REGISTER_URL, parameterList, asbestosRegisterResponseModel);
 		FileuploadWebService.setHandler(myHandler);
 		fileuploadWebService.getService();
 		
