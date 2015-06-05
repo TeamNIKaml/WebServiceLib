@@ -19,7 +19,7 @@ import android.view.MenuItem;
 
 import com.teamNikaml.webservicelib.model.Constant;
 import com.teamNikaml.webservicelib.model.ParameterMapModel;
-import com.teamNikaml.webservicelib.responseModel.AsbestosRegisterResponseModel_30;
+import com.teamNikaml.webservicelib.responseModel.AsbestosRegister_30;
 import com.teamNikaml.webservicelib.responseModel.LoginResponseModel_1;
 import com.teamNikaml.webservicelib.responseModel.TaskDetailsResponseModel_3;
 import com.teamNikaml.webservicelib.responseModel.TaskResponseModel_2;
@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
 	  
 	 TaskDetailsResponseModel_3 taskDetailsResponseModel = new TaskDetailsResponseModel_3();
 	 
-	 AsbestosRegisterResponseModel_30 asbestosRegisterResponseModel = new AsbestosRegisterResponseModel_30();
+	 AsbestosRegister_30 asbestosRegisterResponseModel = new AsbestosRegister_30();
 	
 	private final Handler myHandler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -68,7 +68,8 @@ public class MainActivity extends Activity {
 		ParameterMapModel mapModel = new ParameterMapModel();
 
 	Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-	String path=createImageFile("myfile", getApplicationContext(), bitmap);
+	String customerSignaturePath=createImageFile("CustomerSignature", getApplicationContext(), bitmap);
+	String competentPersonSignaturePath=createImageFile("competentPersonSignature", getApplicationContext(), bitmap);
 
 		/* login */
 		// 
@@ -97,13 +98,13 @@ public class MainActivity extends Activity {
 		 CallWebservice.setHandler(myHandler);
 		 callWebservice.getService();*/
 		
-		mapModel.setAsbestosDataMap();
+		/*mapModel.setAsbestosDataMap();
 		mapModel.setAsbestosFileMap(path);
 		System.out.println("map size");
 		FileuploadWebService fileuploadWebService = new FileuploadWebService(Constant.ASBESTOS_REGISTER_URL,
 				mapModel.getAsbestosDataMap(), mapModel.getAsbestosFileMap(), asbestosRegisterResponseModel);
 		FileuploadWebService.setHandler(myHandler);
-		 fileuploadWebService.getService();
+		 fileuploadWebService.getService();*/
 
 	}
 

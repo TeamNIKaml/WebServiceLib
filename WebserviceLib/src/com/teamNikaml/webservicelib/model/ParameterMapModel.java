@@ -13,7 +13,30 @@ public class ParameterMapModel {
 	
 	private Map<String, String> asbestosDataMap = new HashMap<String, String>();
 	private Map<String, String> asbestosFileMap = new HashMap<String, String>();
+	
+	
+	
+	private Map<String, String> permitToWorkSubmitDataMap = new HashMap<String, String>();
+	private Map<String, String> permitToWorkSubmitFileMap = new HashMap<String, String>();
+	
+	
+	
 
+	public Map<String, String> getPermitToWorkSubmitDataMap() {
+		return permitToWorkSubmitDataMap;
+	}
+	public void setPermitToWorkSubmitDataMap() {
+		//this.permitToWorkSubmitDataMap = permitToWorkSubmitDataMap;
+		asbestosDataMap.put("userKey", "6bc459e0cf4082e7f49a56ebea0ae2d7d");
+		asbestosDataMap.put("requestKeyword", "Asbestos Register");
+	}
+	public Map<String, String> getPermitToWorkSubmitFileMap() {
+		return permitToWorkSubmitFileMap;
+	}
+	public void setPermitToWorkSubmitFileMap(String[] path) {
+		//this.permitToWorkSubmitFileMap = permitToWorkSubmitFileMap;
+		asbestosFileMap.put("uploaded_file", path[0]);
+	}
 	public Map<String, String> getAsbestosDataMap() {
 		return asbestosDataMap;
 	}
@@ -25,7 +48,7 @@ public class ParameterMapModel {
 		return asbestosFileMap;
 	}
 	public void setAsbestosFileMap(String path) {
-		asbestosDataMap.put("uploaded_file", path);
+		asbestosFileMap.put("uploaded_file", path);
 		//asbestosDataMap.put("requestKeyword", "Asbestos Register");
 	}
 	public Map<String, String> getTaskDetailsMap() {

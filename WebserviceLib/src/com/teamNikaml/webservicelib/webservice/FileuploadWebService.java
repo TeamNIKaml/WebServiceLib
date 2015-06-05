@@ -1,14 +1,20 @@
 package com.teamNikaml.webservicelib.webservice;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+
+import org.apache.http.message.BasicNameValuePair;
 
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -72,6 +78,7 @@ public class FileuploadWebService {
 
 			String json = "";
 			String serverResponseMessage = null;
+			final List<BasicNameValuePair> params1 = new ArrayList<BasicNameValuePair>();
 			HttpURLConnection conn = null;
 			DataOutputStream dos = null;
 			String lineEnd = "\r\n";
@@ -80,26 +87,28 @@ public class FileuploadWebService {
 			int bytesRead, bytesAvailable, bufferSize;
 			byte[] buffer;
 			int maxBufferSize = 1 * 1024 * 1024;
-			FileInputStream[] fileInputStream1 = new FileInputStream[fileDataMap
+			FileInputStream[] fileInputStream = new FileInputStream[fileDataMap
 					.size()];
-			FileInputStream fileInputStream = null;
-			/*
-			 * Iterator entries = parametersMap.entrySet().iterator(); while
-			 * (entries.hasNext()) {
-			 * 
-			 * Map.Entry entry = (Map.Entry) entries.next(); String key =
-			 * (String) entry.getKey(); String value = (String)
-			 * entry.getValue(); System.out.println("Key = " + key +
-			 * ", Value = " + value);
-			 * 
-			 * params1.add(new BasicNameValuePair(key, value));
-			 * 
-			 * }
-			 */
+			
+			
+			 /* Iterator entries = parametersMap.entrySet().iterator(); while
+			  (entries.hasNext()) {
+			  
+			  Map.Entry entry = (Map.Entry) entries.next(); String key =
+			  (String) entry.getKey(); String value = (String)
+			  entry.getValue(); System.out.println("Key = " + key +
+			  ", Value = " + value);
+			  
+			  params1.add(new BasicNameValuePair(key, value));
+			  
+			  }*/
+			 
 			try {
-				int i = 0;
-				Iterator entries = fileDataMap.entrySet().iterator();
-
+			
+				Iterator	 entries = fileDataMap.entrySet().iterator();
+				
+			//	System.out.println("before iterator"+fileDataMap);
+				int i =0;
 				while (entries.hasNext()) {
 
 					Map.Entry entry = (Map.Entry) entries.next();
@@ -108,14 +117,15 @@ public class FileuploadWebService {
 					// System.out.println("Key = " + key + ", Value = " +
 					// value);
 
-					fileInputStream = new FileInputStream(new File(entry
-							.getValue().toString()));
+					fileInputStream[i++] = new FileInputStream(new File(entry							.getValue().toString()));
 					
-					System.out.println(entry.getValue().toString());
+				//	System.out.println("Value:"+entry.getValue().toString());
 					
 					json =  entry.getValue().toString();
 
 				}
+				
+		//		System.out.println("after iterator"+fileDataMap);
 
 				URL url = new URL(URL);
 
@@ -137,7 +147,7 @@ public class FileuploadWebService {
 					Map.Entry entry = (Map.Entry) entries.next();
 					conn.setRequestProperty(entry.getKey().toString(), entry
 							.getValue().toString());
-					System.out.println("file path : "+entry.getValue().toString());
+			//		System.out.println("file path : "+entry.getValue().toString());
 
 				}
 
@@ -153,7 +163,7 @@ public class FileuploadWebService {
 
 				i = 0;
 				dos = new DataOutputStream(conn.getOutputStream());
-				/*entries = fileDataMap.entrySet().iterator();
+				entries = fileDataMap.entrySet().iterator();
 
 				while (entries.hasNext()) {
 
@@ -192,7 +202,7 @@ public class FileuploadWebService {
 
 					i++;
 
-				}*/
+				}
 
 				entries = parametersMap.entrySet().iterator();
 
@@ -214,7 +224,7 @@ public class FileuploadWebService {
 				
 				
 				
-				dos.writeBytes(twoHyphens + boundary + lineEnd);
+			/*	dos.writeBytes(twoHyphens + boundary + lineEnd);
 				dos.writeBytes(twoHyphens + boundary + lineEnd);
 				dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename="
 						+ json + "" + lineEnd);
@@ -222,44 +232,46 @@ public class FileuploadWebService {
 				dos.writeBytes(lineEnd);
 
 				// create a buffer of maximum size
-				bytesAvailable = fileInputStream.available();
+				bytesAvailable = fileInputStream[i].available();
 
 				bufferSize = Math.min(bytesAvailable, maxBufferSize);
 				buffer = new byte[bufferSize];
 
 				// read file and write it into form...
-				bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+				bytesRead = fileInputStream[i].read(buffer, 0, bufferSize);
 
 				while (bytesRead > 0) {
 
 					dos.write(buffer, 0, bufferSize);
-					bytesAvailable = fileInputStream.available();
+					bytesAvailable = fileInputStream[i].available();
 					bufferSize = Math.min(bytesAvailable, maxBufferSize);
-					bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+					bytesRead = fileInputStream[i].read(buffer, 0, bufferSize);
 
 				}
 
 				// send multipart form data necesssary after file data...
 				dos.writeBytes(lineEnd);
-				dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+				dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);*/
 				
 				
+				final BufferedReader reader = new BufferedReader(
+						new InputStreamReader(conn.getInputStream(), "iso-8859-1"), 8);
+				final StringBuilder sb = new StringBuilder();
+				String line = null;
+				while ((line = reader.readLine()) != null) {
+					sb.append(line);
+				}
 				
 				
-				
-				
+				json = sb.toString();
 
-				int serverResponseCode = conn.getResponseCode();
-				serverResponseMessage = conn.getResponseMessage();
-
-				System.out.println(serverResponseMessage);
-
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-			return serverResponseMessage;
+			return json;
 		}
 	}
 

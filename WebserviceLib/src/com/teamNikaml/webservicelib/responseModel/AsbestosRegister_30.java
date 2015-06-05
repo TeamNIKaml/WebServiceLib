@@ -1,6 +1,8 @@
 package com.teamNikaml.webservicelib.responseModel;
 
-public class AsbestosRegisterResponseModel_30 {
+public class AsbestosRegister_30 {
+	
+
 	private String status,status_message;
 
 	public String getStatus() {
@@ -18,5 +20,12 @@ public class AsbestosRegisterResponseModel_30 {
 	public void setStatus_message(String status_message) {
 		this.status_message = status_message;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "status:"+status+"status_message:"+status_message;
+	}
+	
 
 }
