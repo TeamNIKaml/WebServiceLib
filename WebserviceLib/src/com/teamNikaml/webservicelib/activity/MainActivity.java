@@ -80,8 +80,8 @@ public class MainActivity extends Activity {
 		ParameterMapModel mapModel = new ParameterMapModel();
 
 		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-		String customerSignaturePath=createImageFile("CustomerSignature", getApplicationContext(), bitmap);
-		String competentPersonSignaturePath=createImageFile("competentPersonSignature", getApplicationContext(), bitmap);
+	//	String customerSignaturePath=createImageFile("CustomerSignature", getApplicationContext(), bitmap);
+	//	String competentPersonSignaturePath=createImageFile("competentPersonSignature", getApplicationContext(), bitmap);
 		
 		
 		String asbestosRegisterPath=createImageFile("AsbestosRegisterSignature", getApplicationContext(), bitmap);
@@ -106,9 +106,10 @@ public class MainActivity extends Activity {
 
 		
 		
-		parameterList.add(new Dictionary("uploaded_file",asbestosRegisterPath));
+	
 		parameterList.add(new Dictionary("userKey","nik@6bc459e0cf4082e7f49a56ebea0ae2d7d"));
 		parameterList.add(new Dictionary("requestKeyword","Asbestos Register"));
+		parameterList.add(new Dictionary("uploaded_file",asbestosRegisterPath));
 		
 		
 		
