@@ -24,5 +24,9 @@ public class Constant {
 	public static final String PERMIT_TO_WORK_SUBMIT_URL = HOST	+ "15PemitToWorkSubmitWebservice.php";
 	
 	
+	/* ASSIGNED_ROOM_SUBMIT_URL */
+	public static final String ASSIGNED_ROOM_SUBMIT_URL = HOST	+ "8AssignedRoomSubmit.php";
+	
+	
 
 }

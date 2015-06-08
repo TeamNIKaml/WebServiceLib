@@ -23,6 +23,7 @@ import com.teamNikaml.webservicelib.model.Constant;
 import com.teamNikaml.webservicelib.model.Dictionary;
 import com.teamNikaml.webservicelib.model.ParameterMapModel;
 import com.teamNikaml.webservicelib.responseModel.AsbestosRegister_30;
+import com.teamNikaml.webservicelib.responseModel.AssignedRoomsubmit_8;
 import com.teamNikaml.webservicelib.responseModel.LoginResponseModel_1;
 import com.teamNikaml.webservicelib.responseModel.PermitToWorkSubmit_15;
 import com.teamNikaml.webservicelib.responseModel.TaskDetailsResponseModel_3;
@@ -33,8 +34,7 @@ import com.teamNikaml.webservicelib.webservice.FileuploadWebService;
 public class MainActivity extends Activity {
 	
 	
-	//          /data/data/com.avc.avcinstaller.activity/files/Customer_Signature_20150602_144343.jpg
-//	           /data/data/com.avc.avcinstaller.activity/files/Competent_Person_Signature_20150602_144349.jpg
+
 
 	
 	 TaskResponseModel_2 taskResponseModel = new TaskResponseModel_2();
@@ -46,6 +46,8 @@ public class MainActivity extends Activity {
 	 AsbestosRegister_30 asbestosRegisterResponseModel = new AsbestosRegister_30();
 	 PermitToWorkSubmit_15 permitToWorkSubmit = new PermitToWorkSubmit_15();
 	 
+	 AssignedRoomsubmit_8 assignedRoomsubmit = new AssignedRoomsubmit_8();
+	 
 	 List<Dictionary> parameterList = new ArrayList<Dictionary>();
 	
 	 
@@ -54,7 +56,7 @@ public class MainActivity extends Activity {
 	private final Handler myHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			
-			System.out.println("Myhandler#:"+asbestosRegisterResponseModel);
+			System.out.println("Myhandler#:"+assignedRoomsubmit);
 		}
 	};
 	
@@ -80,8 +82,8 @@ public class MainActivity extends Activity {
 		ParameterMapModel mapModel = new ParameterMapModel();
 
 		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-	//	String customerSignaturePath=createImageFile("CustomerSignature", getApplicationContext(), bitmap);
-	//	String competentPersonSignaturePath=createImageFile("competentPersonSignature", getApplicationContext(), bitmap);
+		String customerSignaturePath=createImageFile("CustomerSignature", getApplicationContext(), bitmap);
+		String competentPersonSignaturePath=createImageFile("competentPersonSignature", getApplicationContext(), bitmap);
 		
 		
 		String asbestosRegisterPath=createImageFile("AsbestosRegisterSignature", getApplicationContext(), bitmap);
@@ -98,27 +100,60 @@ public class MainActivity extends Activity {
 		parameterList.add(new Dictionary("password","nik@123"));
 		parameterList.add(new Dictionary("requestKeyword","Login"));*/
 		
-		//CallWebservice callWebservice = new CallWebservice(Constant.LOGIN_URL, login, parameterList);
-	//	CallWebservice.setHandler(myHandler);
-	//	callWebservice.getService();
+	
 		
 		//asbestos register
-
 		
+		
+	/*	permitToWorkSubmitDataMap.put("userkey", "6bc459e0cf4082e7f49a56ebea0ae2d7d");
+		permitToWorkSubmitDataMap.put("requestKeyword", "Permit to work");
+		
+		permitToWorkSubmitDataMap.put("task_identification", "Level1");
+		permitToWorkSubmitDataMap.put("other", "other");
+		
+		permitToWorkSubmitDataMap.put("task_classification", "Level2 classified");
+		permitToWorkSubmitDataMap.put("additional_precautions", "additional_precautions 123");
+		
+		permitToWorkSubmitDataMap.put("duration", "2 month");
+		permitToWorkSubmitDataMap.put("customer_name", "Sachin");
+		
+		permitToWorkSubmitDataMap.put("customer_email", "sqchin@gg.cri");
+		permitToWorkSubmitDataMap.put("projectId", "123455");*/
+		
+	/*	permitToWorkSubmitFileMap.put("customer_signature", path[0]);
+		permitToWorkSubmitFileMap.put("competent_person_signature", path[1]);	*/
+
+	/*	writefile($_POST['userKey'],$_POST['requestKeyword'],$_POST['project_id'],
+	 * $_POST['room_id'],$_POST['task_title'],$_POST['priority'],$_POST['start_date'],
+				$_POST['end_date'],$_POST['comment'],$assigned_persons);	*/
 		
 	
 		parameterList.add(new Dictionary("userKey","nik@6bc459e0cf4082e7f49a56ebea0ae2d7d"));
-		parameterList.add(new Dictionary("requestKeyword","Asbestos Register"));
-		parameterList.add(new Dictionary("uploaded_file",asbestosRegisterPath));
+		parameterList.add(new Dictionary("requestKeyword","Assigned Room submit"));
+		parameterList.add(new Dictionary("project_id", "#234"));	
+		parameterList.add(new Dictionary("task_title", "Mywork"));	
+		parameterList.add(new Dictionary("room_id", "#21"));
+		parameterList.add(new Dictionary("priority", "1"));
+		parameterList.add(new Dictionary("start_date", "23-6-2015"));	
+		parameterList.add(new Dictionary("end_date", "25-8-2015"));
+		parameterList.add(new Dictionary("comment", "new"));
+		parameterList.add(new Dictionary("teammember[]", "ronaldo"));		
+		parameterList.add(new Dictionary("teammember[]", "messi"));
+		parameterList.add(new Dictionary("teammember[]", "naymer"));
+		parameterList.add(new Dictionary("teammember[]", "benzama"));
+		
+			
+		CallWebservice callWebservice = new CallWebservice(Constant.ASSIGNED_ROOM_SUBMIT_URL, assignedRoomsubmit, parameterList);
+			CallWebservice.setHandler(myHandler);
+			callWebservice.getService();	
 		
 		
 		
 		
 		
-		
-		FileuploadWebService fileuploadWebService = new FileuploadWebService(Constant.ASBESTOS_REGISTER_URL, parameterList, asbestosRegisterResponseModel);
+		/*FileuploadWebService fileuploadWebService = new FileuploadWebService(Constant.ASSIGNED_ROOM_SUBMIT_URL, parameterList, assignedRoomsubmit);
 		FileuploadWebService.setHandler(myHandler);
-		fileuploadWebService.getService();
+		fileuploadWebService.getService();*/
 		
 		
 

@@ -97,13 +97,13 @@ public class FileuploadWebService {
 					else
 						fileList.add(dictionary);
 				}
-
+				System.out.println("dataList.size():"+dataList.size()+" fileList.size():"+fileList.size());
 				if (fileList.size() > 0) {
 					fileInputStream = new FileInputStream[fileList.size()];
 
 					for (int i = 0; i < fileList.size(); i++) {
 						dictionary = fileList.get(i);
-						fileInputStream[i++] = new FileInputStream(new File(
+						fileInputStream[i] = new FileInputStream(new File(
 								dictionary.getValue()));
 					}
 
@@ -142,7 +142,7 @@ public class FileuploadWebService {
 
 				}
 				
-				System.out.println("dataList.size():"+dataList.size()+" fileList.size():"+fileList.size());
+				
 
 				dos = new DataOutputStream(conn.getOutputStream());
 				
@@ -175,6 +175,13 @@ public class FileuploadWebService {
 					dos.writeBytes(lineEnd);
 
 					// create a buffer of maximum size
+					
+				/*	if(fileInputStream[i] == null)
+					{
+						fileInputStream[i] = new FileInputStream(new File(
+								dictionary.getValue()));
+					}*/
+					
 					bytesAvailable = fileInputStream[i].available();
 
 					bufferSize = Math.min(bytesAvailable, maxBufferSize);
@@ -230,6 +237,9 @@ public class FileuploadWebService {
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}catch (Exception e) {
+				// TODO: handle exception
 				e.printStackTrace();
 			}
 
