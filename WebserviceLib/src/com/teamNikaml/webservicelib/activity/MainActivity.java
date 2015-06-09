@@ -88,44 +88,15 @@ public class MainActivity extends Activity {
 		
 		String asbestosRegisterPath=createImageFile("AsbestosRegisterSignature", getApplicationContext(), bitmap);
 		
-		// params1.add(new BasicNameValuePair("emailId", user.getEmailId()));
-		// params1.add(new BasicNameValuePair("password", user.getPassword()));
-		// params1.add(new BasicNameValuePair("userType",
-		// user.getDesignation()));
-		// /.add(new BasicNameValuePair("requestKeyword", "Login"));
-		
-	
-		 //Login
-		/* parameterList.add(new Dictionary("emailId","abc@gg.cc"));
-		parameterList.add(new Dictionary("password","nik@123"));
-		parameterList.add(new Dictionary("requestKeyword","Login"));*/
 		
 	
 		
-		//asbestos register
 		
 		
-	/*	permitToWorkSubmitDataMap.put("userkey", "6bc459e0cf4082e7f49a56ebea0ae2d7d");
-		permitToWorkSubmitDataMap.put("requestKeyword", "Permit to work");
 		
-		permitToWorkSubmitDataMap.put("task_identification", "Level1");
-		permitToWorkSubmitDataMap.put("other", "other");
-		
-		permitToWorkSubmitDataMap.put("task_classification", "Level2 classified");
-		permitToWorkSubmitDataMap.put("additional_precautions", "additional_precautions 123");
-		
-		permitToWorkSubmitDataMap.put("duration", "2 month");
-		permitToWorkSubmitDataMap.put("customer_name", "Sachin");
-		
-		permitToWorkSubmitDataMap.put("customer_email", "sqchin@gg.cri");
-		permitToWorkSubmitDataMap.put("projectId", "123455");*/
-		
-	/*	permitToWorkSubmitFileMap.put("customer_signature", path[0]);
-		permitToWorkSubmitFileMap.put("competent_person_signature", path[1]);	*/
+	
 
-	/*	writefile($_POST['userKey'],$_POST['requestKeyword'],$_POST['project_id'],
-	 * $_POST['room_id'],$_POST['task_title'],$_POST['priority'],$_POST['start_date'],
-				$_POST['end_date'],$_POST['comment'],$assigned_persons);	*/
+	
 		
 	
 		parameterList.add(new Dictionary("userKey","nik@6bc459e0cf4082e7f49a56ebea0ae2d7d"));
@@ -159,57 +130,7 @@ public class MainActivity extends Activity {
 
 	
 	
-	//System.out.println("competentPersonSignaturePath"+competentPersonSignaturePath);
-	//System.out.println("customerSignaturePath"+customerSignaturePath);
 
-		/* login */
-		// 
-		// mapModel.setLoginMap();
-		// CallWebservice callWebservice = new
-		// CallWebservice(getApplicationContext(), Constant.LOGIN_URL,
-		// mapModel.getLoginMap(), login);
-		// CallWebservice.setHandler(myHandler);
-		// callWebservice.getService();
-
-		/* task */
-		
-		
-		 /* mapModel.setTaskMap();
-		 CallWebservice callWebservice = new CallWebservice(getApplicationContext(), Constant.TASK_URL,
-				 mapModel.getTaskMap(), taskResponseModel);
-		 CallWebservice.setHandler(myHandler);
-		 callWebservice.getService();*/
-		 
-		 
-		 /*Task Details*/
-		
-		/* mapModel.setTaskDetailsMap();
-		 CallWebservice callWebservice = new CallWebservice(getApplicationContext(), Constant.TASK_DETAILS_URL,
-				 mapModel.getTaskDetailsMap(), taskDetailsResponseModel);
-		 CallWebservice.setHandler(myHandler);
-		 callWebservice.getService();*/
-		
-		 //Asbestos register 15 
-		 
-		/* mapModel.setAsbestosDataMap();
-		mapModel.setAsbestosFileMap(competentPersonSignaturePath);
-		System.out.println("map size");
-		FileuploadWebService fileuploadWebService = new FileuploadWebService(Constant.ASBESTOS_REGISTER_URL,
-				mapModel.getAsbestosDataMap(), mapModel.getAsbestosFileMap(), asbestosRegisterResponseModel);
-		FileuploadWebService.setHandler(myHandler);
-		 fileuploadWebService.getService();*/
-
-	
-	   //permit to work submit 15
-	/*String[] path = {competentPersonSignaturePath,customerSignaturePath};
-	
-	mapModel.setPermitToWorkSubmitDataMap();
-	mapModel.setPermitToWorkSubmitFileMap(path);
-	System.out.println("map size"+mapModel.getPermitToWorkSubmitFileMap());
-	FileuploadWebService fileuploadWebService = new FileuploadWebService(Constant.PERMIT_TO_WORK_SUBMIT_URL,
-			mapModel.getPermitToWorkSubmitDataMap(), mapModel.getPermitToWorkSubmitFileMap(), permitToWorkSubmit);
-	FileuploadWebService.setHandler(myHandler);
-	 fileuploadWebService.getService();*/
 		
 		
 		

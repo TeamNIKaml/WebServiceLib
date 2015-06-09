@@ -95,7 +95,6 @@ public class CallWebservice {
 				HttpPost httpPost = null;
 				final DefaultHttpClient httpClient = new DefaultHttpClient();
 				httpPost = new HttpPost(URL);
-				System.out.println(URL);
 				httpPost.setEntity(new UrlEncodedFormEntity(params1));
 				final HttpResponse httpResponse = httpClient.execute(httpPost);
 				final HttpEntity httpEntity = httpResponse.getEntity();
