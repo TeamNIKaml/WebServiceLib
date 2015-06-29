@@ -1,4 +1,4 @@
-package com.teamNikaml.webservicelib.model;
+package com.teamnikaml.webservicelib.model;
 
 public class Dictionary {
 	

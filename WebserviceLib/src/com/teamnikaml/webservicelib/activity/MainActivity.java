@@ -1,4 +1,4 @@
-package com.teamNikaml.webservicelib.activity;
+package com.teamnikaml.webservicelib.activity;
 
 import android.app.Activity;
 import android.os.Bundle;

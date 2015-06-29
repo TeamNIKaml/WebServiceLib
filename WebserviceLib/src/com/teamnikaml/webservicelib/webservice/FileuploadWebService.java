@@ -1,4 +1,4 @@
-package com.teamNikaml.webservicelib.webservice;
+package com.teamnikaml.webservicelib.webservice;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -102,6 +102,8 @@ public class FileuploadWebService {
 					fileInputStream = new FileInputStream[fileList.size()];
 
 					for (int i = 0; i < fileList.size(); i++) {
+						
+						
 						dictionary = fileList.get(i);
 						fileInputStream[i] = new FileInputStream(new File(
 								dictionary.getValue()));

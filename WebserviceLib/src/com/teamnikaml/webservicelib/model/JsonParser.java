@@ -1,4 +1,4 @@
-package com.teamNikaml.webservicelib.model;
+package com.teamnikaml.webservicelib.model;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

@@ -1,4 +1,4 @@
-package com.teamNikaml.webservicelib.webservice;
+package com.teamnikaml.webservicelib.webservice;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,18 +20,15 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 
-import com.teamNikaml.webservicelib.model.Dictionary;
-import com.teamNikaml.webservicelib.model.JsonParser;
+import com.teamnikaml.webservicelib.model.Dictionary;
+import com.teamnikaml.webservicelib.model.JsonParser;
 
 public class CallWebservice {
 
 	private static InputStream is = null;
-
 	private String URL;
-
 	private Object classObject;
 	private List<Dictionary> parameterList = new ArrayList<Dictionary>();
-
 	private static Handler myHandler;
 
 	public static void setHandler(Handler h) {
@@ -39,7 +36,6 @@ public class CallWebservice {
 	}
 
 	private void callHandler() {
-
 		if (myHandler != null) {
 			myHandler.sendEmptyMessage(1);
 		}
@@ -61,9 +57,9 @@ public class CallWebservice {
 	}
 
 	public void getService() {
-
-		new WebserviceAsyncTask().execute("webservice");
-
+		// new WebserviceAsyncTask().execute("webservice");
+		new WebserviceAsyncTask().executeOnExecutor(
+				AsyncTask.THREAD_POOL_EXECUTOR, "webservice");
 	}
 
 	private class WebserviceAsyncTask extends

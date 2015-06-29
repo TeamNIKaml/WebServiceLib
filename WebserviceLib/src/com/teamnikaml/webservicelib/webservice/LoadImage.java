@@ -3,7 +3,7 @@
  *
  * Jun 10, 2015
  */
-package com.teamNikaml.webservicelib.webservice;
+package com.teamnikaml.webservicelib.webservice;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -35,6 +35,11 @@ public class LoadImage {
 	}
 
 	public void getImage() {
+		
+		//executeOnExecutor
+		
+	//	new LoadImageAsyncTask().ex
+		
 
 		new LoadImageAsyncTask().execute("LoadImage");
 

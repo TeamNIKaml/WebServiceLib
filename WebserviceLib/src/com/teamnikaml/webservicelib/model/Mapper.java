@@ -1,12 +1,10 @@
-package com.teamNikaml.webservicelib.model;
+package com.teamnikaml.webservicelib.model;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-
-import com.teamNikaml.webservicelib.webservice.CallWebservice;
 
 public class Mapper {
 	
