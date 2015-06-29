@@ -70,6 +70,7 @@ public class LoadImage {
 
 			if (image != null) {
 				bitmap = Bitmap.createScaledBitmap(bitmap, 1000, 700, false);
+				myImageView.setDrawingCacheEnabled(true);
 
 				myImageView.setImageBitmap(bitmap);
 

@@ -14,8 +14,8 @@ import java.util.List;
 import android.os.AsyncTask;
 import android.os.Handler;
 
-import com.teamNikaml.webservicelib.model.Dictionary;
-import com.teamNikaml.webservicelib.model.JsonParser;
+import com.teamnikaml.webservicelib.model.Dictionary;
+import com.teamnikaml.webservicelib.model.JsonParser;
 
 public class FileuploadWebService {
 
