@@ -8,7 +8,7 @@ import android.content.Context;
 
 public class Mapper {
 	
-	private Context context;
+	//private Context context;
 	private Object className;
 	private List<String> fieldNameList;
 
@@ -18,7 +18,7 @@ public class Mapper {
 
 	public Mapper(Context context) {
 		super();
-		this.context = context;
+	//	this.context = context;
 	}
 
 	public void setClassName(Object className) {
